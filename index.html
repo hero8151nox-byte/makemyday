@@ -1,1 +1,1380 @@
 
+<!DOCTYPE html>
+
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日本語練習帳</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;500&family=ZCOOL+XiaoWei&family=Shippori+Mincho:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+--bg: #0d0d0f;
+--surface: #16161a;
+--surface2: #1e1e24;
+--border: rgba(255,255,255,0.07);
+--accent: #e8c56d;
+--accent2: #7eb8d4;
+--red: #e05c5c;
+--green: #5cba8a;
+--text: #e8e4da;
+--muted: #6b6870;
+--muted2: #9a9499;
+}
+
+- { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+background: var(–bg);
+min-height: 100vh;
+font-family: ‘Noto Sans JP’, sans-serif;
+color: var(–text);
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+/* ── SETUP SCREEN ── */
+#setupScreen {
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+padding: 40px 20px;
+width: 100%;
+position: relative;
+overflow: hidden;
+}
+
+.setup-bg {
+position: absolute;
+inset: 0;
+overflow: hidden;
+pointer-events: none;
+}
+
+.setup-bg span {
+position: absolute;
+font-family: ‘Shippori Mincho’, serif;
+color: rgba(232,197,109,0.04);
+font-size: 200px;
+font-weight: 600;
+user-select: none;
+}
+
+.setup-bg span:nth-child(1) { top:-30px; left:-30px; font-size:280px; }
+.setup-bg span:nth-child(2) { bottom:-40px; right:-20px; font-size:240px; color:rgba(126,184,212,0.03); }
+.setup-bg span:nth-child(3) { top:40%; left:50%; transform:translate(-50%,-50%); font-size:320px; opacity:0.5; }
+
+.logo {
+text-align: center;
+margin-bottom: 48px;
+position: relative;
+z-index: 1;
+}
+
+.logo-line1 {
+font-family: ‘Shippori Mincho’, serif;
+font-size: 11px;
+letter-spacing: 8px;
+color: var(–accent);
+text-transform: uppercase;
+margin-bottom: 10px;
+}
+
+.logo-title {
+font-family: ‘Shippori Mincho’, serif;
+font-size: 42px;
+font-weight: 600;
+letter-spacing: 6px;
+background: linear-gradient(135deg, var(–accent), #fff6dc, var(–accent2));
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+line-height: 1.1;
+}
+
+.logo-sub {
+font-size: 12px;
+color: var(–muted);
+letter-spacing: 3px;
+margin-top: 8px;
+}
+
+.setup-card {
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 12px;
+padding: 36px 32px;
+width: 100%;
+max-width: 460px;
+position: relative;
+z-index: 1;
+box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+}
+
+.setup-section {
+margin-bottom: 28px;
+}
+
+.setup-label {
+font-size: 10px;
+letter-spacing: 4px;
+color: var(–accent);
+text-transform: uppercase;
+margin-bottom: 14px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.setup-label::after {
+content: ‘’;
+flex: 1;
+height: 1px;
+background: var(–border);
+}
+
+/* Level selector */
+.level-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 10px;
+}
+
+.level-btn {
+padding: 16px 10px;
+border: 1px solid var(–border);
+background: transparent;
+border-radius: 8px;
+cursor: pointer;
+transition: all 0.2s;
+text-align: center;
+position: relative;
+overflow: hidden;
+}
+
+.level-btn::before {
+content: ‘’;
+position: absolute;
+inset: 0;
+opacity: 0;
+transition: opacity 0.2s;
+}
+
+.level-btn[data-level=“N5”]::before { background: linear-gradient(135deg, rgba(94,188,94,0.15), transparent); }
+.level-btn[data-level=“N4”]::before { background: linear-gradient(135deg, rgba(126,184,212,0.15), transparent); }
+.level-btn[data-level=“N3”]::before { background: linear-gradient(135deg, rgba(232,197,109,0.15), transparent); }
+
+.level-btn.active { border-color: transparent; }
+.level-btn.active::before { opacity: 1; }
+.level-btn[data-level=“N5”].active { border-color: rgba(94,188,94,0.5); }
+.level-btn[data-level=“N4”].active { border-color: rgba(126,184,212,0.5); }
+.level-btn[data-level=“N3”].active { border-color: rgba(232,197,109,0.5); }
+
+.level-name {
+font-family: ‘Shippori Mincho’, serif;
+font-size: 22px;
+font-weight: 600;
+margin-bottom: 4px;
+}
+.level-btn[data-level=“N5”] .level-name { color: #5ebc5e; }
+.level-btn[data-level=“N4”] .level-name { color: var(–accent2); }
+.level-btn[data-level=“N3”] .level-name { color: var(–accent); }
+
+.level-desc {
+font-size: 10px;
+color: var(–muted);
+letter-spacing: 1px;
+}
+
+.level-count {
+font-size: 9px;
+color: var(–muted);
+margin-top: 3px;
+}
+
+/* Count selector */
+.count-row {
+display: flex;
+align-items: center;
+gap: 12px;
+}
+
+.count-slider {
+flex: 1;
+-webkit-appearance: none;
+height: 3px;
+background: var(–border);
+border-radius: 3px;
+outline: none;
+cursor: pointer;
+position: relative;
+}
+
+.count-slider::-webkit-slider-thumb {
+-webkit-appearance: none;
+width: 18px;
+height: 18px;
+border-radius: 50%;
+background: var(–accent);
+cursor: pointer;
+box-shadow: 0 0 10px rgba(232,197,109,0.4);
+transition: box-shadow 0.2s;
+}
+
+.count-slider::-webkit-slider-thumb:hover {
+box-shadow: 0 0 20px rgba(232,197,109,0.6);
+}
+
+.count-display {
+font-family: ‘Shippori Mincho’, serif;
+font-size: 28px;
+color: var(–accent);
+min-width: 50px;
+text-align: center;
+line-height: 1;
+}
+
+.count-unit {
+font-size: 11px;
+color: var(–muted);
+letter-spacing: 1px;
+text-align: center;
+margin-top: 2px;
+}
+
+.slider-marks {
+display: flex;
+justify-content: space-between;
+padding: 0 2px;
+margin-top: 6px;
+}
+
+.slider-mark {
+font-size: 9px;
+color: var(–muted);
+letter-spacing: 1px;
+}
+
+/* Start button */
+.start-btn {
+width: 100%;
+padding: 16px;
+background: linear-gradient(135deg, rgba(232,197,109,0.2), rgba(232,197,109,0.1));
+border: 1px solid rgba(232,197,109,0.4);
+border-radius: 8px;
+color: var(–accent);
+font-family: ‘Shippori Mincho’, serif;
+font-size: 16px;
+letter-spacing: 6px;
+cursor: pointer;
+transition: all 0.3s;
+margin-top: 8px;
+position: relative;
+overflow: hidden;
+}
+
+.start-btn::after {
+content: ‘’;
+position: absolute;
+inset: 0;
+background: rgba(232,197,109,0.08);
+opacity: 0;
+transition: opacity 0.2s;
+}
+
+.start-btn:hover::after { opacity: 1; }
+.start-btn:hover { box-shadow: 0 0 30px rgba(232,197,109,0.2); }
+.start-btn:active { transform: scale(0.98); }
+
+/* ── QUIZ SCREEN ── */
+#quizScreen {
+display: none;
+flex-direction: column;
+align-items: center;
+width: 100%;
+min-height: 100vh;
+padding: 24px 20px 40px;
+}
+
+/* Top bar */
+.quiz-topbar {
+width: 100%;
+max-width: 520px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 20px;
+}
+
+.quiz-back {
+background: none;
+border: none;
+color: var(–muted);
+cursor: pointer;
+font-size: 13px;
+letter-spacing: 2px;
+padding: 6px 0;
+transition: color 0.2s;
+font-family: ‘Noto Sans JP’, sans-serif;
+}
+
+.quiz-back:hover { color: var(–text); }
+
+.quiz-info {
+font-size: 11px;
+color: var(–muted);
+letter-spacing: 2px;
+display: flex;
+gap: 16px;
+}
+
+.quiz-level-badge {
+font-family: ‘Shippori Mincho’, serif;
+font-size: 13px;
+padding: 3px 10px;
+border-radius: 4px;
+border: 1px solid;
+}
+
+/* Progress */
+.progress-wrap {
+width: 100%;
+max-width: 520px;
+margin-bottom: 28px;
+}
+
+.progress-track {
+height: 3px;
+background: var(–border);
+border-radius: 3px;
+overflow: hidden;
+margin-bottom: 8px;
+}
+
+.progress-bar2 {
+height: 100%;
+background: linear-gradient(90deg, var(–accent2), var(–accent));
+border-radius: 3px;
+transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+.progress-labels {
+display: flex;
+justify-content: space-between;
+font-size: 10px;
+color: var(–muted);
+letter-spacing: 1px;
+}
+
+.score-pills {
+display: flex;
+gap: 8px;
+}
+
+.pill {
+font-size: 10px;
+padding: 2px 8px;
+border-radius: 20px;
+letter-spacing: 1px;
+}
+
+.pill-c { background: rgba(92,186,138,0.15); color: var(–green); border: 1px solid rgba(92,186,138,0.25); }
+.pill-w { background: rgba(224,92,92,0.15); color: var(–red); border: 1px solid rgba(224,92,92,0.25); }
+
+/* Question card */
+.q-card {
+width: 100%;
+max-width: 520px;
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 12px;
+padding: 32px 28px 28px;
+margin-bottom: 16px;
+position: relative;
+box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+transition: border-color 0.3s;
+}
+
+.q-card.state-correct { border-color: rgba(92,186,138,0.5); }
+.q-card.state-wrong { border-color: rgba(224,92,92,0.5); }
+
+.q-num {
+font-size: 10px;
+color: var(–muted);
+letter-spacing: 3px;
+margin-bottom: 20px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.q-tag {
+font-size: 10px;
+padding: 2px 8px;
+border-radius: 3px;
+letter-spacing: 1px;
+}
+
+.q-tag-noun { background: rgba(126,184,212,0.1); color: var(–accent2); border: 1px solid rgba(126,184,212,0.2); }
+.q-tag-verb { background: rgba(224,92,92,0.1); color: #e07a7a; border: 1px solid rgba(224,92,92,0.2); }
+.q-tag-adj { background: rgba(92,186,138,0.1); color: var(–green); border: 1px solid rgba(92,186,138,0.2); }
+
+.q-prompt-label {
+font-size: 10px;
+letter-spacing: 4px;
+color: var(–muted);
+text-transform: uppercase;
+margin-bottom: 10px;
+}
+
+.q-meaning {
+font-family: ‘ZCOOL XiaoWei’, serif;
+font-size: 44px;
+color: var(–text);
+margin-bottom: 6px;
+line-height: 1.1;
+}
+
+.q-hint {
+font-size: 12px;
+color: var(–muted);
+margin-bottom: 24px;
+min-height: 18px;
+}
+
+/* Input area */
+.input-wrap {
+position: relative;
+}
+
+.jp-input {
+width: 100%;
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 8px;
+padding: 16px 50px 16px 18px;
+font-family: ‘Noto Serif JP’, serif;
+font-size: 22px;
+color: var(–text);
+outline: none;
+transition: border-color 0.2s, box-shadow 0.2s;
+letter-spacing: 3px;
+ime-mode: active;
+}
+
+.jp-input:focus {
+border-color: rgba(232,197,109,0.4);
+box-shadow: 0 0 0 3px rgba(232,197,109,0.06);
+}
+
+.jp-input.correct-input {
+border-color: rgba(92,186,138,0.5);
+background: rgba(92,186,138,0.05);
+}
+
+.jp-input.wrong-input {
+border-color: rgba(224,92,92,0.5);
+background: rgba(224,92,92,0.05);
+}
+
+.submit-btn {
+position: absolute;
+right: 10px;
+top: 50%;
+transform: translateY(-50%);
+background: rgba(232,197,109,0.15);
+border: 1px solid rgba(232,197,109,0.3);
+border-radius: 6px;
+color: var(–accent);
+width: 36px;
+height: 36px;
+cursor: pointer;
+font-size: 16px;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: all 0.2s;
+}
+
+.submit-btn:hover { background: rgba(232,197,109,0.25); }
+
+/* Answer feedback */
+.answer-feedback {
+margin-top: 14px;
+border-radius: 8px;
+padding: 14px 16px;
+display: none;
+animation: feedIn 0.3s ease;
+}
+
+@keyframes feedIn {
+from { opacity:0; transform: translateY(-6px); }
+to { opacity:1; transform: translateY(0); }
+}
+
+.answer-feedback.show { display: block; }
+.answer-feedback.correct-fb { background: rgba(92,186,138,0.08); border: 1px solid rgba(92,186,138,0.2); }
+.answer-feedback.wrong-fb { background: rgba(224,92,92,0.08); border: 1px solid rgba(224,92,92,0.2); }
+
+.fb-row1 {
+display: flex;
+align-items: center;
+gap: 8px;
+margin-bottom: 6px;
+}
+
+.fb-icon { font-size: 18px; }
+.fb-label { font-size: 13px; font-weight: 500; letter-spacing: 1px; }
+.fb-correct .fb-label { color: var(–green); }
+.fb-wrong .fb-label { color: var(–red); }
+
+.fb-correct-ans {
+font-family: ‘Noto Serif JP’, serif;
+font-size: 20px;
+letter-spacing: 3px;
+color: var(–text);
+margin-bottom: 4px;
+}
+
+.fb-reading {
+font-size: 13px;
+color: var(–accent);
+letter-spacing: 2px;
+}
+
+.fb-sentence {
+margin-top: 10px;
+padding-top: 10px;
+border-top: 1px solid rgba(255,255,255,0.06);
+font-family: ‘Noto Serif JP’, serif;
+font-size: 13px;
+color: var(–muted2);
+line-height: 2;
+}
+
+.fb-sentence-zh {
+font-size: 11px;
+color: var(–muted);
+margin-top: 2px;
+}
+
+/* Buttons */
+.action-row {
+width: 100%;
+max-width: 520px;
+display: flex;
+gap: 10px;
+}
+
+.btn-skip2 {
+flex: 0 0 auto;
+padding: 13px 20px;
+background: transparent;
+border: 1px solid var(–border);
+border-radius: 8px;
+color: var(–muted);
+font-family: ‘Noto Sans JP’, sans-serif;
+font-size: 12px;
+letter-spacing: 2px;
+cursor: pointer;
+transition: all 0.2s;
+}
+
+.btn-skip2:hover { border-color: rgba(255,255,255,0.15); color: var(–text); }
+
+.btn-next {
+flex: 1;
+padding: 13px;
+background: linear-gradient(135deg, rgba(232,197,109,0.2), rgba(126,184,212,0.1));
+border: 1px solid rgba(232,197,109,0.35);
+border-radius: 8px;
+color: var(–accent);
+font-family: ‘Shippori Mincho’, serif;
+font-size: 14px;
+letter-spacing: 4px;
+cursor: pointer;
+transition: all 0.2s;
+display: none;
+}
+
+.btn-next.show { display: block; }
+.btn-next:hover { box-shadow: 0 0 20px rgba(232,197,109,0.15); }
+
+/* ── RESULT SCREEN ── */
+#resultScreen {
+display: none;
+flex-direction: column;
+align-items: center;
+width: 100%;
+min-height: 100vh;
+padding: 40px 20px;
+justify-content: center;
+}
+
+.result-header {
+text-align: center;
+margin-bottom: 36px;
+}
+
+.result-kanji {
+font-family: ‘Shippori Mincho’, serif;
+font-size: 72px;
+margin-bottom: 12px;
+display: block;
+}
+
+.result-title {
+font-family: ‘Shippori Mincho’, serif;
+font-size: 24px;
+letter-spacing: 6px;
+color: var(–text);
+margin-bottom: 6px;
+}
+
+.result-sub {
+font-size: 11px;
+color: var(–muted);
+letter-spacing: 3px;
+}
+
+.result-score-card {
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 12px;
+padding: 28px 32px;
+width: 100%;
+max-width: 420px;
+margin-bottom: 24px;
+}
+
+.score-row {
+display: flex;
+gap: 0;
+margin-bottom: 20px;
+}
+
+.score-box {
+flex: 1;
+text-align: center;
+padding: 16px 10px;
+border-radius: 8px;
+}
+
+.score-box:first-child { margin-right: 8px; background: rgba(92,186,138,0.08); border: 1px solid rgba(92,186,138,0.2); }
+.score-box:last-child { background: rgba(224,92,92,0.08); border: 1px solid rgba(224,92,92,0.2); }
+
+.score-big2 {
+font-family: ‘Shippori Mincho’, serif;
+font-size: 48px;
+line-height: 1;
+margin-bottom: 4px;
+}
+
+.score-box:first-child .score-big2 { color: var(–green); }
+.score-box:last-child .score-big2 { color: var(–red); }
+
+.score-lbl2 {
+font-size: 10px;
+color: var(–muted);
+letter-spacing: 2px;
+}
+
+.accuracy-bar-wrap {
+margin-bottom: 8px;
+}
+
+.acc-label {
+display: flex;
+justify-content: space-between;
+font-size: 10px;
+color: var(–muted);
+letter-spacing: 2px;
+margin-bottom: 6px;
+}
+
+.acc-pct { color: var(–accent); font-family: ‘Shippori Mincho’, serif; font-size: 14px; }
+
+.acc-bar-track {
+height: 4px;
+background: var(–border);
+border-radius: 4px;
+overflow: hidden;
+}
+
+.acc-bar-fill {
+height: 100%;
+border-radius: 4px;
+background: linear-gradient(90deg, var(–green), var(–accent));
+transition: width 1s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* Wrong answers review */
+.wrong-list {
+width: 100%;
+max-width: 420px;
+margin-bottom: 24px;
+}
+
+.wrong-list-title {
+font-size: 10px;
+letter-spacing: 4px;
+color: var(–accent);
+text-transform: uppercase;
+margin-bottom: 12px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.wrong-list-title::after {
+content: ‘’;
+flex: 1;
+height: 1px;
+background: var(–border);
+}
+
+.wrong-item {
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 8px;
+padding: 12px 14px;
+margin-bottom: 8px;
+display: flex;
+align-items: center;
+gap: 12px;
+}
+
+.wi-meaning {
+font-family: ‘ZCOOL XiaoWei’, serif;
+font-size: 18px;
+color: var(–muted2);
+min-width: 60px;
+}
+
+.wi-arrow { color: var(–muted); font-size: 12px; }
+
+.wi-jp {
+font-family: ‘Noto Serif JP’, serif;
+font-size: 20px;
+color: var(–text);
+letter-spacing: 2px;
+margin-right: 6px;
+}
+
+.wi-reading {
+font-size: 11px;
+color: var(–accent);
+letter-spacing: 1px;
+}
+
+.wi-your {
+margin-left: auto;
+font-size: 11px;
+color: var(–red);
+font-family: ‘Noto Serif JP’, serif;
+letter-spacing: 1px;
+opacity: 0.7;
+}
+
+.result-btns {
+display: flex;
+gap: 10px;
+width: 100%;
+max-width: 420px;
+}
+
+.btn-retry {
+flex: 1;
+padding: 14px;
+background: linear-gradient(135deg, rgba(232,197,109,0.15), rgba(126,184,212,0.08));
+border: 1px solid rgba(232,197,109,0.35);
+border-radius: 8px;
+color: var(–accent);
+font-family: ‘Shippori Mincho’, serif;
+font-size: 14px;
+letter-spacing: 4px;
+cursor: pointer;
+transition: all 0.2s;
+}
+
+.btn-retry:hover { box-shadow: 0 0 20px rgba(232,197,109,0.15); }
+
+.btn-home {
+padding: 14px 20px;
+background: transparent;
+border: 1px solid var(–border);
+border-radius: 8px;
+color: var(–muted);
+font-family: ‘Noto Sans JP’, sans-serif;
+font-size: 12px;
+letter-spacing: 2px;
+cursor: pointer;
+transition: all 0.2s;
+}
+
+.btn-home:hover { border-color: rgba(255,255,255,0.15); color: var(–text); }
+
+/* Utility */
+@keyframes slideUp {
+from { opacity:0; transform:translateY(24px); }
+to { opacity:1; transform:translateY(0); }
+}
+
+.slide-up { animation: slideUp 0.4s ease forwards; }
+</style>
+
+</head>
+<body>
+
+<!-- ══ SETUP SCREEN ══ -->
+
+<div id="setupScreen">
+<div class="setup-bg">
+<span>語</span>
+<span>学</span>
+<span>習</span>
+</div>
+
+<div class="logo slide-up">
+<div class="logo-line1">Japanese Vocabulary</div>
+<div class="logo-title">日本語練習帳</div>
+<div class="logo-sub">看中文 · 写日语</div>
+</div>
+
+<div class="setup-card slide-up" style="animation-delay:0.1s">
+
+```
+<div class="setup-section">
+<div class="setup-label">选择等级</div>
+<div class="level-grid" id="levelGrid">
+<button class="level-btn active" data-level="N5" onclick="selectLevel('N5')">
+<div class="level-name">N5</div>
+<div class="level-desc">入门基础</div>
+<div class="level-count" id="cnt-N5">— 词</div>
+</button>
+<button class="level-btn" data-level="N4" onclick="selectLevel('N4')">
+<div class="level-name">N4</div>
+<div class="level-desc">初级进阶</div>
+<div class="level-count" id="cnt-N4">— 词</div>
+</button>
+<button class="level-btn" data-level="N3" onclick="selectLevel('N3')">
+<div class="level-name">N3</div>
+<div class="level-desc">中级词汇</div>
+<div class="level-count" id="cnt-N3">— 词</div>
+</button>
+</div>
+</div>
+
+<div class="setup-section">
+<div class="setup-label">挑战数量</div>
+<div class="count-row">
+<input type="range" class="count-slider" id="countSlider" min="20" max="50" step="5" value="20" oninput="updateCount()">
+<div>
+<div class="count-display" id="countDisplay">20</div>
+<div class="count-unit">题</div>
+</div>
+</div>
+<div class="slider-marks">
+<span class="slider-mark">20</span>
+<span class="slider-mark">25</span>
+<span class="slider-mark">30</span>
+<span class="slider-mark">35</span>
+<span class="slider-mark">40</span>
+<span class="slider-mark">45</span>
+<span class="slider-mark">50</span>
+</div>
+</div>
+
+<button class="start-btn" onclick="startQuiz()">開始練習</button>
+```
+
+</div>
+</div>
+
+<!-- ══ QUIZ SCREEN ══ -->
+
+<div id="quizScreen">
+<div class="quiz-topbar">
+<button class="quiz-back" onclick="goHome()">← 返回</button>
+<div class="quiz-info">
+<span id="levelBadge" class="quiz-level-badge">N5</span>
+</div>
+</div>
+
+<div class="progress-wrap">
+<div class="progress-track">
+<div class="progress-bar2" id="progressBar2" style="width:0%"></div>
+</div>
+<div class="progress-labels">
+<span id="qNumLabel">第 1 题 / 共 20 题</span>
+<div class="score-pills">
+<span class="pill pill-c" id="pillC">✓ 0</span>
+<span class="pill pill-w" id="pillW">✗ 0</span>
+</div>
+</div>
+</div>
+
+<div class="q-card" id="qCard">
+<div class="q-num">
+<span id="qCounter">01</span>
+<span class="q-tag q-tag-noun" id="qTag">名詞</span>
+</div>
+<div class="q-prompt-label">请用日语写出</div>
+<div class="q-meaning" id="qMeaning">樱花</div>
+<div class="q-hint" id="qHint">提示：名词 · N5</div>
+
+```
+<div class="input-wrap">
+<input type="text" class="jp-input" id="jpInput"
+placeholder="输入日语（汉字或假名）…"
+onkeydown="handleKey(event)"
+autocomplete="off" autocorrect="off" spellcheck="false">
+<button class="submit-btn" onclick="submitAnswer()">↵</button>
+</div>
+
+<div class="answer-feedback" id="feedback">
+<div class="fb-row1">
+<span class="fb-icon" id="fbIcon"></span>
+<span class="fb-label" id="fbLabel"></span>
+</div>
+<div class="fb-correct-ans" id="fbCorrectAns"></div>
+<div class="fb-reading" id="fbReading"></div>
+<div class="fb-sentence" id="fbSentence"></div>
+<div class="fb-sentence-zh" id="fbSentenceZh"></div>
+</div>
+```
+
+</div>
+
+<div class="action-row">
+<button class="btn-skip2" onclick="skipQuestion()">跳过 →</button>
+<button class="btn-next" id="btnNext" onclick="nextQuestion()">下一题 ›</button>
+</div>
+</div>
+
+<!-- ══ RESULT SCREEN ══ -->
+
+<div id="resultScreen">
+<div class="result-header">
+<span class="result-kanji" id="resultKanji">完</span>
+<div class="result-title">练习完成</div>
+<div class="result-sub">PRACTICE COMPLETE</div>
+</div>
+
+<div class="result-score-card">
+<div class="score-row">
+<div class="score-box">
+<div class="score-big2" id="finalC">0</div>
+<div class="score-lbl2">答对</div>
+</div>
+<div class="score-box">
+<div class="score-big2" id="finalW">0</div>
+<div class="score-lbl2">答错</div>
+</div>
+</div>
+<div class="accuracy-bar-wrap">
+<div class="acc-label">
+<span>正确率</span>
+<span class="acc-pct" id="accPct">0%</span>
+</div>
+<div class="acc-bar-track">
+<div class="acc-bar-fill" id="accBarFill" style="width:0%"></div>
+</div>
+</div>
+</div>
+
+<div class="wrong-list" id="wrongList"></div>
+
+<div class="result-btns">
+<button class="btn-retry" onclick="retryWrong()" id="btnRetry">再练错题</button>
+<button class="btn-home" onclick="goHome()">首页</button>
+</div>
+</div>
+
+<script>
+// ════ WORD DATA ════
+const WORDS = {
+N5: [
+{ jp:'桜', alt:['さくら','サクラ'], reading:'さくら', meaning:'樱花', type:'名詞', sentence:'桜の花が綺麗に咲いています。', sentenceZh:'樱花开得很美。' },
+{ jp:'猫', alt:['ねこ','ネコ'], reading:'ねこ', meaning:'猫', type:'名詞', sentence:'猫が窓の外を見ています。', sentenceZh:'猫在看窗外。' },
+{ jp:'空', alt:['そら'], reading:'そら', meaning:'天空', type:'名詞', sentence:'今日の空はとても青い。', sentenceZh:'今天的天空很蓝。' },
+{ jp:'食べる', alt:['たべる'], reading:'たべる', meaning:'吃', type:'動詞', sentence:'朝ごはんを食べましょう。', sentenceZh:'吃早饭吧。' },
+{ jp:'水', alt:['みず'], reading:'みず', meaning:'水', type:'名詞', sentence:'水を一杯ください。', sentenceZh:'请给我一杯水。' },
+{ jp:'山', alt:['やま'], reading:'やま', meaning:'山', type:'名詞', sentence:'富士山は日本一高い山です。', sentenceZh:'富士山是日本最高的山。' },
+{ jp:'海', alt:['うみ'], reading:'うみ', meaning:'大海', type:'名詞', sentence:'夏は海で泳ぎたい。', sentenceZh:'夏天想在海里游泳。' },
+{ jp:'雨', alt:['あめ'], reading:'あめ', meaning:'雨', type:'名詞', sentence:'雨が降っています。', sentenceZh:'正在下雨。' },
+{ jp:'花', alt:['はな'], reading:'はな', meaning:'花', type:'名詞', sentence:'庭に色んな花が咲いています。', sentenceZh:'院子里开着各种花。' },
+{ jp:'日本語', alt:['にほんご'], reading:'にほんご', meaning:'日语', type:'名詞', sentence:'日本語を勉強しています。', sentenceZh:'我在学日语。' },
+{ jp:'先生', alt:['せんせい'], reading:'せんせい', meaning:'老师', type:'名詞', sentence:'先生はとても優しいです。', sentenceZh:'老师非常温柔。' },
+{ jp:'学校', alt:['がっこう'], reading:'がっこう', meaning:'学校', type:'名詞', sentence:'毎日学校へ行きます。', sentenceZh:'每天去学校。' },
+{ jp:'友達', alt:['ともだち'], reading:'ともだち', meaning:'朋友', type:'名詞', sentence:'友達と公園で遊びました。', sentenceZh:'和朋友在公园玩了。' },
+{ jp:'好き', alt:['すき'], reading:'すき', meaning:'喜欢', type:'形容詞', sentence:'猫が好きです。', sentenceZh:'我喜欢猫。' },
+{ jp:'大きい', alt:['おおきい'], reading:'おおきい', meaning:'大的', type:'形容詞', sentence:'その木はとても大きい。', sentenceZh:'那棵树非常大。' },
+{ jp:'小さい', alt:['ちいさい'], reading:'ちいさい', meaning:'小的', type:'形容詞', sentence:'小さい子供が走っています。', sentenceZh:'小孩子在跑。' },
+{ jp:'新しい', alt:['あたらしい'], reading:'あたらしい', meaning:'新的', type:'形容詞', sentence:'新しいスマホを買いました。', sentenceZh:'买了新手机。' },
+{ jp:'古い', alt:['ふるい'], reading:'ふるい', meaning:'旧的', type:'形容詞', sentence:'この家は古いです。', sentenceZh:'这座房子很旧。' },
+{ jp:'見る', alt:['みる'], reading:'みる', meaning:'看', type:'動詞', sentence:'映画を見ます。', sentenceZh:'看电影。' },
+{ jp:'聞く', alt:['きく'], reading:'きく', meaning:'听/问', type:'動詞', sentence:'音楽を聞くのが好きです。', sentenceZh:'喜欢听音乐。' },
+{ jp:'行く', alt:['いく'], reading:'いく', meaning:'去', type:'動詞', sentence:'日本へ行きたいです。', sentenceZh:'想去日本。' },
+{ jp:'来る', alt:['くる'], reading:'くる', meaning:'来', type:'動詞', sentence:'友達が家に来ます。', sentenceZh:'朋友来家里。' },
+{ jp:'帰る', alt:['かえる'], reading:'かえる', meaning:'回去', type:'動詞', sentence:'家に帰りましょう。', sentenceZh:'回家吧。' },
+{ jp:'寝る', alt:['ねる'], reading:'ねる', meaning:'睡觉', type:'動詞', sentence:'早く寝てください。', sentenceZh:'请早点睡觉。' },
+{ jp:'起きる', alt:['おきる'], reading:'おきる', meaning:'起床', type:'動詞', sentence:'朝六時に起きます。', sentenceZh:'早上六点起床。' },
+{ jp:'飲む', alt:['のむ'], reading:'のむ', meaning:'喝', type:'動詞', sentence:'水を飲んでください。', sentenceZh:'请喝水。' },
+{ jp:'買う', alt:['かう'], reading:'かう', meaning:'买', type:'動詞', sentence:'スーパーで野菜を買います。', sentenceZh:'在超市买蔬菜。' },
+{ jp:'話す', alt:['はなす'], reading:'はなす', meaning:'说话', type:'動詞', sentence:'日本語で話しましょう。', sentenceZh:'用日语说话吧。' },
+{ jp:'読む', alt:['よむ'], reading:'よむ', meaning:'读', type:'動詞', sentence:'毎日本を読みます。', sentenceZh:'每天读书。' },
+{ jp:'書く', alt:['かく'], reading:'かく', meaning:'写', type:'動詞', sentence:'漢字を書く練習をします。', sentenceZh:'练习写汉字。' },
+{ jp:'白い', alt:['しろい'], reading:'しろい', meaning:'白的', type:'形容詞', sentence:'白い雪が降っています。', sentenceZh:'下着白雪。' },
+{ jp:'黒い', alt:['くろい'], reading:'くろい', meaning:'黑的', type:'形容詞', sentence:'黒い猫が好きです。', sentenceZh:'喜欢黑猫。' },
+{ jp:'高い', alt:['たかい'], reading:'たかい', meaning:'高的/贵的', type:'形容詞', sentence:'この山は高い。', sentenceZh:'这座山很高。' },
+{ jp:'安い', alt:['やすい'], reading:'やすい', meaning:'便宜的', type:'形容詞', sentence:'このお店は安いです。', sentenceZh:'这家店很便宜。' },
+{ jp:'暑い', alt:['あつい'], reading:'あつい', meaning:'热的', type:'形容詞', sentence:'今日はとても暑い。', sentenceZh:'今天非常热。' },
+{ jp:'寒い', alt:['さむい'], reading:'さむい', meaning:'冷的', type:'形容詞', sentence:'冬はとても寒いです。', sentenceZh:'冬天非常冷。' },
+{ jp:'電車', alt:['でんしゃ'], reading:'でんしゃ', meaning:'电车', type:'名詞', sentence:'電車で学校へ行きます。', sentenceZh:'坐电车去学校。' },
+{ jp:'駅', alt:['えき'], reading:'えき', meaning:'车站', type:'名詞', sentence:'駅まで歩きます。', sentenceZh:'走路到车站。' },
+{ jp:'病院', alt:['びょういん'], reading:'びょういん', meaning:'医院', type:'名詞', sentence:'病院へ行きましょう。', sentenceZh:'去医院吧。' },
+{ jp:'薬', alt:['くすり'], reading:'くすり', meaning:'药', type:'名詞', sentence:'薬を飲んでください。', sentenceZh:'请吃药。' },
+{ jp:'今日', alt:['きょう'], reading:'きょう', meaning:'今天', type:'名詞', sentence:'今日はいい天気ですね。', sentenceZh:'今天天气真好。' },
+{ jp:'明日', alt:['あした'], reading:'あした', meaning:'明天', type:'名詞', sentence:'明日また来てください。', sentenceZh:'明天请再来。' },
+{ jp:'昨日', alt:['きのう'], reading:'きのう', meaning:'昨天', type:'名詞', sentence:'昨日は雨でした。', sentenceZh:'昨天下雨了。' },
+{ jp:'朝', alt:['あさ'], reading:'あさ', meaning:'早上', type:'名詞', sentence:'朝ごはんを食べましたか？', sentenceZh:'你吃早饭了吗？' },
+{ jp:'夜', alt:['よる'], reading:'よる', meaning:'晚上', type:'名詞', sentence:'夜に星が綺麗です。', sentenceZh:'晚上星星很美。' },
+{ jp:'家', alt:['いえ','うち'], reading:'いえ', meaning:'家', type:'名詞', sentence:'家に帰りたいです。', sentenceZh:'想回家。' },
+{ jp:'名前', alt:['なまえ'], reading:'なまえ', meaning:'名字', type:'名詞', sentence:'お名前は何ですか？', sentenceZh:'您叫什么名字？' },
+{ jp:'仕事', alt:['しごと'], reading:'しごと', meaning:'工作', type:'名詞', sentence:'仕事が忙しいです。', sentenceZh:'工作很忙。' },
+{ jp:'時間', alt:['じかん'], reading:'じかん', meaning:'时间', type:'名詞', sentence:'時間がありません。', sentenceZh:'没有时间。' },
+{ jp:'毎日', alt:['まいにち'], reading:'まいにち', meaning:'每天', type:'名詞', sentence:'毎日運動しています。', sentenceZh:'每天运动。' },
+],
+N4: [
+{ jp:'夢', alt:['ゆめ'], reading:'ゆめ', meaning:'梦想', type:'名詞', sentence:'大きな夢を持ちましょう。', sentenceZh:'要拥有远大的梦想。' },
+{ jp:'旅行', alt:['りょこう'], reading:'りょこう', meaning:'旅行', type:'名詞', sentence:'来年、日本へ旅行する予定です。', sentenceZh:'明年计划去日本旅行。' },
+{ jp:'音楽', alt:['おんがく'], reading:'おんがく', meaning:'音乐', type:'名詞', sentence:'音楽を聴くと元気になります。', sentenceZh:'听音乐就会变得精神。' },
+{ jp:'笑顔', alt:['えがお'], reading:'えがお', meaning:'笑容', type:'名詞', sentence:'彼女の笑顔は素晴らしい。', sentenceZh:'她的笑容很美。' },
+{ jp:'大切', alt:['たいせつ'], reading:'たいせつ', meaning:'重要', type:'形容詞', sentence:'家族はとても大切です。', sentenceZh:'家人非常重要。' },
+{ jp:'準備', alt:['じゅんび'], reading:'じゅんび', meaning:'准备', type:'名詞', sentence:'試験の準備をしています。', sentenceZh:'在为考试做准备。' },
+{ jp:'運動', alt:['うんどう'], reading:'うんどう', meaning:'运动', type:'名詞', sentence:'毎日運動することが大切です。', sentenceZh:'每天运动很重要。' },
+{ jp:'心配', alt:['しんぱい'], reading:'しんぱい', meaning:'担心', type:'名詞', sentence:'心配しないでください。', sentenceZh:'请不要担心。' },
+{ jp:'連絡', alt:['れんらく'], reading:'れんらく', meaning:'联系', type:'名詞', sentence:'後で連絡します。', sentenceZh:'之后联系你。' },
+{ jp:'趣味', alt:['しゅみ'], reading:'しゅみ', meaning:'爱好', type:'名詞', sentence:'趣味は何ですか？', sentenceZh:'你的爱好是什么？' },
+{ jp:'約束', alt:['やくそく'], reading:'やくそく', meaning:'约定', type:'名詞', sentence:'約束を守ってください。', sentenceZh:'请遵守约定。' },
+{ jp:'記念', alt:['きねん'], reading:'きねん', meaning:'纪念', type:'名詞', sentence:'記念写真を撮りましょう。', sentenceZh:'拍纪念照吧。' },
+{ jp:'お礼', alt:['おれい'], reading:'おれい', meaning:'道谢', type:'名詞', sentence:'お礼を言いたいです。', sentenceZh:'想道谢。' },
+{ jp:'相談', alt:['そうだん'], reading:'そうだん', meaning:'商量', type:'名詞', sentence:'相談があります。', sentenceZh:'有事想商量。' },
+{ jp:'説明', alt:['せつめい'], reading:'せつめい', meaning:'说明', type:'名詞', sentence:'もう一度説明してください。', sentenceZh:'请再说明一次。' },
+{ jp:'注意', alt:['ちゅうい'], reading:'ちゅうい', meaning:'注意', type:'名詞', sentence:'道を歩く時は注意してください。', sentenceZh:'走路时请注意。' },
+{ jp:'失敗', alt:['しっぱい'], reading:'しっぱい', meaning:'失败', type:'名詞', sentence:'失敗を恐れないでください。', sentenceZh:'不要害怕失败。' },
+{ jp:'成功', alt:['せいこう'], reading:'せいこう', meaning:'成功', type:'名詞', sentence:'成功するために努力します。', sentenceZh:'为了成功而努力。' },
+{ jp:'試験', alt:['しけん'], reading:'しけん', meaning:'考试', type:'名詞', sentence:'明日試験があります。', sentenceZh:'明天有考试。' },
+{ jp:'合格', alt:['ごうかく'], reading:'ごうかく', meaning:'合格', type:'名詞', sentence:'試験に合格しました！', sentenceZh:'考试合格了！' },
+{ jp:'電話', alt:['でんわ'], reading:'でんわ', meaning:'电话', type:'名詞', sentence:'電話してもいいですか？', sentenceZh:'可以打电话吗？' },
+{ jp:'引っ越す', alt:['ひっこす'], reading:'ひっこす', meaning:'搬家', type:'動詞', sentence:'来月引っ越す予定です。', sentenceZh:'计划下个月搬家。' },
+{ jp:'集める', alt:['あつめる'], reading:'あつめる', meaning:'收集', type:'動詞', sentence:'切手を集めるのが好きです。', sentenceZh:'喜欢收集邮票。' },
+{ jp:'調べる', alt:['しらべる'], reading:'しらべる', meaning:'调查', type:'動詞', sentence:'インターネットで調べました。', sentenceZh:'在网上查了。' },
+{ jp:'教える', alt:['おしえる'], reading:'おしえる', meaning:'教', type:'動詞', sentence:'日本語を教えてください。', sentenceZh:'请教我日语。' },
+{ jp:'覚える', alt:['おぼえる'], reading:'おぼえる', meaning:'记住', type:'動詞', sentence:'単語を覚えましょう。', sentenceZh:'记住单词吧。' },
+{ jp:'忘れる', alt:['わすれる'], reading:'わすれる', meaning:'忘记', type:'動詞', sentence:'宿題を忘れないでください。', sentenceZh:'不要忘记作业。' },
+{ jp:'決める', alt:['きめる'], reading:'きめる', meaning:'决定', type:'動詞', sentence:'もう決めましたか？', sentenceZh:'已经决定了吗？' },
+{ jp:'続ける', alt:['つづける'], reading:'つづける', meaning:'继续', type:'動詞', sentence:'頑張って続けてください。', sentenceZh:'请加油继续下去。' },
+{ jp:'始める', alt:['はじめる'], reading:'はじめる', meaning:'开始', type:'動詞', sentence:'新しいことを始めましょう。', sentenceZh:'开始新的事情吧。' },
+{ jp:'終わる', alt:['おわる'], reading:'おわる', meaning:'结束', type:'動詞', sentence:'仕事が終わりました。', sentenceZh:'工作结束了。' },
+],
+N3: [
+{ jp:'自由', alt:['じゆう'], reading:'じゆう', meaning:'自由', type:'名詞', sentence:'人間は自由を求めます。', sentenceZh:'人类追求自由。' },
+{ jp:'経験', alt:['けいけん'], reading:'けいけん', meaning:'经验', type:'名詞', sentence:'失敗も大切な経験です。', sentenceZh:'失败也是宝贵的经验。' },
+{ jp:'努力', alt:['どりょく'], reading:'どりょく', meaning:'努力', type:'名詞', sentence:'努力すれば夢は叶います。', sentenceZh:'只要努力，梦想就会实现。' },
+{ jp:'感謝', alt:['かんしゃ'], reading:'かんしゃ', meaning:'感谢', type:'名詞', sentence:'毎日に感謝しています。', sentenceZh:'我对每一天都心存感激。' },
+{ jp:'変化', alt:['へんか'], reading:'へんか', meaning:'变化', type:'名詞', sentence:'世界は常に変化しています。', sentenceZh:'世界在不断变化。' },
+{ jp:'可能性', alt:['かのうせい'], reading:'かのうせい', meaning:'可能性', type:'名詞', sentence:'可能性は無限にあります。', sentenceZh:'可能性是无限的。' },
+{ jp:'責任', alt:['せきにん'], reading:'せきにん', meaning:'责任', type:'名詞', sentence:'責任を持って行動してください。', sentenceZh:'请负责任地行动。' },
+{ jp:'影響', alt:['えいきょう'], reading:'えいきょう', meaning:'影响', type:'名詞', sentence:'環境が人に影響を与えます。', sentenceZh:'环境对人产生影响。' },
+{ jp:'判断', alt:['はんだん'], reading:'はんだん', meaning:'判断', type:'名詞', sentence:'自分で判断してください。', sentenceZh:'请自己判断。' },
+{ jp:'比較', alt:['ひかく'], reading:'ひかく', meaning:'比较', type:'名詞', sentence:'他人と比較しないことが大切です。', sentenceZh:'不与他人比较是很重要的。' },
+{ jp:'状況', alt:['じょうきょう'], reading:'じょうきょう', meaning:'状况', type:'名詞', sentence:'状況を確認してください。', sentenceZh:'请确认状况。' },
+{ jp:'目標', alt:['もくひょう'], reading:'もくひょう', meaning:'目标', type:'名詞', sentence:'目標を持つことが大切です。', sentenceZh:'拥有目标很重要。' },
+{ jp:'印象', alt:['いんしょう'], reading:'いんしょう', meaning:'印象', type:'名詞', sentence:'第一印象はとても大事です。', sentenceZh:'第一印象非常重要。' },
+{ jp:'記憶', alt:['きおく'], reading:'きおく', meaning:'记忆', type:'名詞', sentence:'大切な記憶を忘れたくない。', sentenceZh:'不想忘记珍贵的记忆。' },
+{ jp:'理解', alt:['りかい'], reading:'りかい', meaning:'理解', type:'名詞', sentence:'相手の気持ちを理解しましょう。', sentenceZh:'理解对方的心情吧。' },
+{ jp:'解決', alt:['かいけつ'], reading:'かいけつ', meaning:'解决', type:'名詞', sentence:'問題を解決しなければなりません。', sentenceZh:'必须解决问题。' },
+{ jp:'協力', alt:['きょうりょく'], reading:'きょうりょく', meaning:'合作', type:'名詞', sentence:'みんなで協力しましょう。', sentenceZh:'大家一起合作吧。' },
+{ jp:'希望', alt:['きぼう'], reading:'きぼう', meaning:'希望', type:'名詞', sentence:'希望を持ち続けてください。', sentenceZh:'请一直保持希望。' },
+{ jp:'失望', alt:['しつぼう'], reading:'しつぼう', meaning:'失望', type:'名詞', sentence:'失望しないでください。', sentenceZh:'请不要失望。' },
+{ jp:'感動', alt:['かんどう'], reading:'かんどう', meaning:'感动', type:'名詞', sentence:'その映画に感動しました。', sentenceZh:'被那部电影感动了。' },
+{ jp:'緊張', alt:['きんちょう'], reading:'きんちょう', meaning:'紧张', type:'名詞', sentence:'面接の前は緊張します。', sentenceZh:'面试前会紧张。' },
+{ jp:'我慢', alt:['がまん'], reading:'がまん', meaning:'忍耐', type:'名詞', sentence:'もう我慢できません。', sentenceZh:'已经忍不住了。' },
+{ jp:'反省', alt:['はんせい'], reading:'はんせい', meaning:'反省', type:'名詞', sentence:'自分の行動を反省しています。', sentenceZh:'正在反省自己的行为。' },
+{ jp:'納得', alt:['なっとく'], reading:'なっとく', meaning:'认可/接受', type:'名詞', sentence:'説明を聞いて納得しました。', sentenceZh:'听了说明后接受了。' },
+{ jp:'挑戦', alt:['ちょうせん'], reading:'ちょうせん', meaning:'挑战', type:'名詞', sentence:'新しいことに挑戦しましょう。', sentenceZh:'挑战新事物吧。' },
+{ jp:'尊重', alt:['そんちょう'], reading:'そんちょう', meaning:'尊重', type:'名詞', sentence:'互いの意見を尊重しましょう。', sentenceZh:'互相尊重意见吧。' },
+{ jp:'議論', alt:['ぎろん'], reading:'ぎろん', meaning:'讨论', type:'名詞', sentence:'活発な議論が行われました。', sentenceZh:'进行了活跃的讨论。' },
+{ jp:'提案', alt:['ていあん'], reading:'ていあん', meaning:'提案', type:'名詞', sentence:'新しい提案をしました。', sentenceZh:'提出了新的方案。' },
+{ jp:'確認', alt:['かくにん'], reading:'かくにん', meaning:'确认', type:'名詞', sentence:'もう一度確認してください。', sentenceZh:'请再确认一次。' },
+{ jp:'依頼', alt:['いらい'], reading:'いらい', meaning:'委托', type:'名詞', sentence:'お願いがあります、依頼してもいいですか？', sentenceZh:'我有事相求，可以委托您吗？' },
+{ jp:'評価', alt:['ひょうか'], reading:'ひょうか', meaning:'评价', type:'名詞', sentence:'公正な評価をお願いします。', sentenceZh:'请给予公正的评价。' },
+]
+};
+
+// ════ STATE ════
+let selectedLevel = 'N5';
+let quizCount = 20;
+let quizWords = [];
+let qi = 0;
+let correctCount = 0;
+let wrongCount = 0;
+let wrongWords = [];
+let answered = false;
+
+// ════ SETUP ════
+function updateCounts() {
+['N5','N4','N3'].forEach(l => {
+document.getElementById('cnt-'+l).textContent = WORDS[l].length + ' 词';
+});
+}
+
+function selectLevel(l) {
+selectedLevel = l;
+document.querySelectorAll('.level-btn').forEach(b => b.classList.toggle('active', b.dataset.level === l));
+// Constrain count
+const max = Math.min(50, WORDS[l].length);
+const slider = document.getElementById('countSlider');
+slider.max = max;
+if (parseInt(slider.value) > max) slider.value = max;
+updateCount();
+}
+
+function updateCount() {
+const v = document.getElementById('countSlider').value;
+document.getElementById('countDisplay').textContent = v;
+quizCount = parseInt(v);
+}
+
+function startQuiz() {
+quizCount = parseInt(document.getElementById('countSlider').value);
+const pool = [...WORDS[selectedLevel]];
+shuffle(pool);
+quizWords = pool.slice(0, Math.min(quizCount, pool.length));
+qi = 0; correctCount = 0; wrongCount = 0; wrongWords = [];
+
+document.getElementById('setupScreen').style.display = 'none';
+document.getElementById('resultScreen').style.display = 'none';
+document.getElementById('quizScreen').style.display = 'flex';
+
+// Set level badge style
+const badge = document.getElementById('levelBadge');
+badge.textContent = selectedLevel;
+const colors = { N5: '#5ebc5e', N4: '#7eb8d4', N3: '#e8c56d' };
+badge.style.color = colors[selectedLevel];
+badge.style.borderColor = colors[selectedLevel];
+
+showQuestion();
+}
+
+// ════ QUIZ ════
+function showQuestion() {
+if (qi >= quizWords.length) { showResult(); return; }
+
+answered = false;
+const w = quizWords[qi];
+const card = document.getElementById('qCard');
+card.className = 'q-card';
+
+document.getElementById('qCounter').textContent = String(qi+1).padStart(2,'0');
+document.getElementById('qMeaning').textContent = w.meaning;
+document.getElementById('qHint').textContent = `提示：${w.type} · ${selectedLevel}`;
+
+// Type tag
+const tag = document.getElementById('qTag');
+tag.textContent = w.type;
+tag.className = 'q-tag ' + (w.type==='名詞'?'q-tag-noun': w.type==='動詞'?'q-tag-verb':'q-tag-adj');
+
+// Reset input
+const inp = document.getElementById('jpInput');
+inp.value = '';
+inp.className = 'jp-input';
+inp.disabled = false;
+
+// Hide feedback
+const fb = document.getElementById('feedback');
+fb.className = 'answer-feedback';
+document.getElementById('btnNext').className = 'btn-next';
+
+// Progress
+const pct = (qi / quizWords.length) * 100;
+document.getElementById('progressBar2').style.width = pct + '%';
+document.getElementById('qNumLabel').textContent = `第 ${qi+1} 题 / 共 ${quizWords.length} 题`;
+document.getElementById('pillC').textContent = `✓ ${correctCount}`;
+document.getElementById('pillW').textContent = `✗ ${wrongCount}`;
+
+setTimeout(() => inp.focus(), 100);
+}
+
+function handleKey(e) {
+if (e.key === 'Enter') {
+if (answered) nextQuestion();
+else submitAnswer();
+}
+}
+
+function submitAnswer() {
+if (answered) return;
+const inp = document.getElementById('jpInput');
+const raw = inp.value.trim();
+if (!raw) return;
+
+answered = true;
+inp.disabled = true;
+
+const w = quizWords[qi];
+const accepted = [w.jp, ...w.alt].map(s => s.trim());
+const isCorrect = accepted.includes(raw);
+
+const card = document.getElementById('qCard');
+const fb = document.getElementById('feedback');
+const icon = document.getElementById('fbIcon');
+const label = document.getElementById('fbLabel');
+const correctAns = document.getElementById('fbCorrectAns');
+const reading = document.getElementById('fbReading');
+const sentence = document.getElementById('fbSentence');
+const sentenceZh = document.getElementById('fbSentenceZh');
+
+if (isCorrect) {
+correctCount++;
+inp.className = 'jp-input correct-input';
+card.className = 'q-card state-correct';
+fb.className = 'answer-feedback correct-fb fb-correct show';
+icon.textContent = '✓';
+label.textContent = '正确！';
+correctAns.textContent = w.jp;
+reading.textContent = w.reading;
+} else {
+wrongCount++;
+wrongWords.push({ word: w, userAns: raw });
+inp.className = 'jp-input wrong-input';
+card.className = 'q-card state-wrong';
+fb.className = 'answer-feedback wrong-fb fb-wrong show';
+icon.textContent = '✗';
+label.textContent = `答错了，正确答案是：`;
+correctAns.textContent = w.jp;
+reading.textContent = w.reading;
+}
+sentence.textContent = w.sentence;
+sentenceZh.textContent = w.sentenceZh;
+
+document.getElementById('btnNext').className = 'btn-next show';
+document.getElementById('pillC').textContent = `✓ ${correctCount}`;
+document.getElementById('pillW').textContent = `✗ ${wrongCount}`;
+}
+
+function skipQuestion() {
+if (answered) { nextQuestion(); return; }
+answered = true;
+const w = quizWords[qi];
+wrongCount++;
+wrongWords.push({ word: w, userAns: '（跳过）' });
+
+const inp = document.getElementById('jpInput');
+inp.className = 'jp-input wrong-input';
+inp.disabled = true;
+document.getElementById('qCard').className = 'q-card state-wrong';
+
+const fb = document.getElementById('feedback');
+fb.className = 'answer-feedback wrong-fb fb-wrong show';
+document.getElementById('fbIcon').textContent = '→';
+document.getElementById('fbLabel').textContent = '跳过，正确答案是：';
+document.getElementById('fbCorrectAns').textContent = w.jp;
+document.getElementById('fbReading').textContent = w.reading;
+document.getElementById('fbSentence').textContent = w.sentence;
+document.getElementById('fbSentenceZh').textContent = w.sentenceZh;
+document.getElementById('btnNext').className = 'btn-next show';
+document.getElementById('pillW').textContent = `✗ ${wrongCount}`;
+}
+
+function nextQuestion() {
+qi++;
+showQuestion();
+}
+
+// ════ RESULT ════
+function showResult() {
+document.getElementById('quizScreen').style.display = 'none';
+const rs = document.getElementById('resultScreen');
+rs.style.display = 'flex';
+
+const total = quizWords.length;
+const acc = total > 0 ? Math.round(correctCount / total * 100) : 0;
+
+// Emoji based on accuracy
+const emoji = acc >= 90 ? '優' : acc >= 70 ? '良' : acc >= 50 ? '可' : '頑';
+document.getElementById('resultKanji').textContent = emoji;
+
+document.getElementById('finalC').textContent = correctCount;
+document.getElementById('finalW').textContent = wrongCount;
+document.getElementById('accPct').textContent = acc + '%';
+setTimeout(() => {
+document.getElementById('accBarFill').style.width = acc + '%';
+}, 100);
+
+// Wrong list
+const wl = document.getElementById('wrongList');
+wl.innerHTML = '';
+if (wrongWords.length > 0) {
+const title = document.createElement('div');
+title.className = 'wrong-list-title';
+title.textContent = '答错的单词';
+wl.appendChild(title);
+wrongWords.forEach(({ word: w, userAns }) => {
+const item = document.createElement('div');
+item.className = 'wrong-item';
+item.innerHTML = `
+<span class="wi-meaning">${w.meaning}</span>
+<span class="wi-arrow">›</span>
+<span class="wi-jp">${w.jp}</span>
+<span class="wi-reading">${w.reading}</span>
+<span class="wi-your">${userAns}</span>
+`;
+wl.appendChild(item);
+});
+}
+
+const btn = document.getElementById('btnRetry');
+btn.style.display = wrongWords.length > 0 ? '' : 'none';
+}
+
+function retryWrong() {
+quizWords = wrongWords.map(w => w.word);
+shuffle(quizWords);
+qi = 0; correctCount = 0; wrongCount = 0; wrongWords = [];
+document.getElementById('resultScreen').style.display = 'none';
+document.getElementById('quizScreen').style.display = 'flex';
+showQuestion();
+}
+
+function goHome() {
+document.getElementById('quizScreen').style.display = 'none';
+document.getElementById('resultScreen').style.display = 'none';
+document.getElementById('setupScreen').style.display = 'flex';
+}
+
+function shuffle(arr) {
+for (let i = arr.length - 1; i > 0; i--) {
+const j = Math.floor(Math.random() * (i+1));
+[arr[i], arr[j]] = [arr[j], arr[i]];
+}
+}
+
+// Init
+updateCounts();
+// set slider max
+const initMax = Math.min(50, WORDS['N5'].length);
+document.getElementById('countSlider').max = initMax;
+document.getElementById('countSlider').value = 20;
+updateCount();
+</script>
+
+</body>
+</html>
+
+
