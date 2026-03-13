@@ -808,6 +808,15 @@ input{font-family:inherit;outline:none}
 .test-input.correct-border{ border-color:var(--accent2)!important; }
 .test-input.wrong-border{ border-color:var(--danger)!important; }
 
+.opt-reveal{
+  font-size:0.75rem;
+  color:var(--text-2);
+  margin-left:10px;
+  opacity:0.85;
+}
+.quiz-option.correct .opt-reveal{ color:rgba(63,185,80,0.8); }
+.quiz-option.wrong   .opt-reveal{ color:rgba(248,81,73,0.8); }
+
 /* 测试得分chip */
 .test-score-chip{
   background:var(--bg-panel);
@@ -2893,7 +2902,12 @@ function renderQuizQuestion(){
     const displayText = activeType==='jp2zh'
       ? (opt.meaning || '？')
       : (opt.kana || opt.word || '？');
-    btn.innerHTML = `<span class="opt-label">${labels[i]}</span><span>${displayText}</span>`;
+    // 答题后要显示的"另一面"翻译
+    const revealText = activeType==='jp2zh'
+      ? (opt.kana || opt.word || '')
+      : (opt.meaning || '');
+    btn.dataset.reveal = revealText;
+    btn.innerHTML = `<span class="opt-label">${labels[i]}</span><span class="opt-main-text">${displayText}</span>`;
     btn.onclick = ()=>checkAnswer(opt, q, btn, optDiv);
     optDiv.appendChild(btn);
   });
@@ -2935,9 +2949,16 @@ function checkAnswer(chosen, correct, btn, optDiv){
   const stats = loadStats();
   stats.total = (stats.total||0)+1;
 
-  // 标记所有选项
+  // 标记所有选项，并追加翻译小字
   Array.from(optDiv.querySelectorAll('.quiz-option')).forEach(b=>{
     b.classList.add('disabled');
+    const reveal = b.dataset.reveal;
+    if(reveal){
+      const sub = document.createElement('span');
+      sub.className = 'opt-reveal';
+      sub.textContent = reveal;
+      b.appendChild(sub);
+    }
   });
 
   if(isCorrect){
