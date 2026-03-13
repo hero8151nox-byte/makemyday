@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>贺大山学日语</title>
+<title>日本語 N5-N4 学习工具</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -819,6 +819,153 @@ input{font-family:inherit;outline:none}
   white-space:nowrap;
   align-self:center;
 }
+/* ===== 语法模块样式 ===== */
+.gram-tabs{
+  display:flex;gap:8px;margin-bottom:12px;
+}
+.gram-tab{
+  flex:1;padding:10px;
+  background:var(--bg-panel);
+  border:2px solid var(--border);
+  border-radius:var(--radius-sm);
+  color:var(--text-2);font-size:0.9rem;font-weight:700;
+  transition:all 0.2s;
+}
+.gram-tab.active{border-color:var(--accent);color:var(--accent);background:rgba(88,166,255,0.08)}
+
+.gram-progress-row{
+  display:flex;align-items:center;gap:10px;margin-bottom:14px;
+}
+.gram-progress-bar{
+  flex:1;height:8px;background:var(--bg-panel);border-radius:4px;overflow:hidden;
+}
+.gram-progress-fill{
+  height:100%;background:linear-gradient(90deg,var(--accent2),#26a641);
+  border-radius:4px;transition:width 0.5s ease;
+}
+.gram-progress-txt{font-size:0.78rem;color:var(--text-2);white-space:nowrap}
+
+/* 语法列表项 */
+.gram-item{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:14px 16px;
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:8px;cursor:pointer;
+  transition:border-color 0.2s,transform 0.15s;
+}
+.gram-item:active{transform:scale(0.99)}
+.gram-item.done{border-left:3px solid var(--accent2)}
+.gram-item.undone{border-left:3px solid var(--border)}
+.gram-item:hover{border-color:var(--accent)}
+.gram-item-icon{font-size:1.2rem;width:30px;text-align:center;flex-shrink:0}
+.gram-item-body{flex:1;min-width:0}
+.gram-item-title{font-weight:700;font-size:0.95rem;margin-bottom:2px}
+.gram-item-meaning{font-size:0.78rem;color:var(--text-2);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gram-item-badge{
+  font-size:0.72rem;font-weight:700;padding:3px 9px;border-radius:20px;
+  flex-shrink:0;
+}
+.gram-item-badge.done{background:rgba(63,185,80,0.15);color:var(--accent2)}
+.gram-item-badge.undone{background:var(--bg-panel);color:var(--text-3)}
+
+/* 语法自由练习入口卡 */
+.gram-free-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px 20px;
+  display:flex;align-items:center;gap:14px;cursor:pointer;
+  margin-top:12px;transition:border-color 0.2s;
+}
+.gram-free-card:hover{border-color:var(--accent)}
+
+/* 语法讲解卡 */
+.gram-explain-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px;
+  display:flex;flex-direction:column;gap:10px;
+  margin-bottom:12px;
+}
+.gram-point-title{
+  font-family:'Noto Sans JP',sans-serif;
+  font-size:1.5rem;font-weight:700;color:var(--accent);letter-spacing:1px;
+}
+.gram-point-meaning{font-size:1rem;font-weight:700;color:var(--text-1)}
+.gram-point-structure{
+  background:var(--bg-panel);border-radius:var(--radius-sm);
+  padding:10px 12px;font-size:0.85rem;color:var(--warn);
+  font-family:'Noto Sans JP',sans-serif;line-height:1.7;
+}
+.gram-examples{display:flex;flex-direction:column;gap:6px}
+.gram-example-item{
+  background:var(--bg-panel);border-radius:var(--radius-sm);
+  padding:9px 12px;font-size:0.83rem;
+  font-family:'Noto Sans JP',sans-serif;line-height:1.6;
+  border-left:3px solid rgba(88,166,255,0.3);
+}
+.gram-example-jp{color:var(--text-1)}
+.gram-example-zh{color:var(--text-2);font-size:0.78rem;margin-top:2px}
+
+/* 语法练习题 */
+.gram-quiz-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:16px;margin-bottom:10px;
+}
+.gram-quiz-q{font-size:1rem;font-weight:700;margin-bottom:12px;line-height:1.6;
+  font-family:'Noto Sans JP',sans-serif;}
+.gram-quiz-blank{
+  display:inline-block;min-width:60px;border-bottom:2px solid var(--accent);
+  color:var(--accent);padding:0 4px;font-weight:700;
+}
+.gram-opts{display:flex;flex-direction:column;gap:8px}
+.gram-opt{
+  background:var(--bg-panel);border:2px solid var(--border);
+  border-radius:var(--radius-sm);padding:11px 14px;
+  text-align:left;color:var(--text-1);font-size:0.9rem;
+  font-family:'Noto Sans JP',sans-serif;
+  display:flex;align-items:center;gap:10px;cursor:pointer;
+  transition:border-color 0.15s,background 0.15s;
+}
+.gram-opt .go-label{
+  width:24px;height:24px;border-radius:50%;
+  background:var(--bg-card);display:flex;align-items:center;
+  justify-content:center;font-size:0.75rem;font-weight:700;flex-shrink:0;
+}
+.gram-opt.correct{border-color:var(--accent2)!important;background:rgba(63,185,80,0.08)!important}
+.gram-opt.correct .go-label{background:var(--accent2);color:#fff}
+.gram-opt.wrong{border-color:var(--danger)!important;background:rgba(248,81,73,0.08)!important}
+.gram-opt.wrong .go-label{background:var(--danger);color:#fff}
+.gram-opt.disabled{pointer-events:none}
+.gram-explain-tip{
+  background:rgba(88,166,255,0.07);border:1px solid rgba(88,166,255,0.2);
+  border-radius:var(--radius-sm);padding:10px 12px;
+  font-size:0.82rem;color:var(--text-2);margin-top:8px;line-height:1.6;
+  font-family:'Noto Sans JP',sans-serif;
+}
+
+/* 自由练习设置 */
+.gfree-count-row{display:flex;gap:8px;flex-wrap:wrap}
+.gfree-count-btn{
+  padding:8px 18px;background:var(--bg-panel);
+  border:2px solid var(--border);border-radius:var(--radius-sm);
+  color:var(--text-2);font-size:0.9rem;font-weight:700;
+  transition:all 0.2s;
+}
+.gfree-count-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(88,166,255,0.08)}
+
+/* 语法分页 */
+.gram-page-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 4px;margin-top:4px;
+}
+.gram-page-btn{
+  padding:8px 16px;background:var(--bg-panel);
+  border:1px solid var(--border);border-radius:var(--radius-sm);
+  color:var(--text-1);font-size:0.85rem;font-weight:700;
+  transition:all 0.2s;
+}
+.gram-page-btn:disabled{color:var(--text-3);opacity:0.4;pointer-events:none}
+.gram-page-btn:not(:disabled):hover{border-color:var(--accent);color:var(--accent)}
+.gram-page-info{font-size:0.78rem;color:var(--text-2)}
 </style>
 </head>
 <body>
@@ -931,6 +1078,14 @@ input{font-family:inherit;outline:none}
         <span class="wrong-count-badge" id="home-wrong-badge">0</span>
         <div class="mode-arrow">›</div>
       </div>
+      <div class="mode-card" style="border-color:var(--border)" onclick="goPage('page-grammar');renderGramList();setNav('nav-grammar')">
+        <div class="mode-icon" style="background:rgba(227,179,65,0.15);font-size:1.5rem">📝</div>
+        <div class="mode-info">
+          <div class="mode-title">语法学习</div>
+          <div class="mode-desc">N5·N4 语法讲解 + 练习</div>
+        </div>
+        <div class="mode-arrow">›</div>
+      </div>
     </div>
   </div>
 
@@ -1038,6 +1193,113 @@ input{font-family:inherit;outline:none}
     <div id="wrong-content"></div>
   </div>
 
+  <!-- 页面：语法主页（选N5/N4 + 进入自由练习） -->
+  <div id="page-grammar" class="page hidden">
+    <div class="section-title">语法学习</div>
+    <!-- 等级选项卡 -->
+    <div class="gram-tabs">
+      <button class="gram-tab active" id="gtab-n5" onclick="switchGramTab('N5')">N5 语法</button>
+      <button class="gram-tab" id="gtab-n4" onclick="switchGramTab('N4')">N4 语法</button>
+    </div>
+    <!-- 进度条 -->
+    <div class="gram-progress-row">
+      <div class="gram-progress-bar"><div class="gram-progress-fill" id="gram-prog-fill" style="width:0%"></div></div>
+      <span class="gram-progress-txt" id="gram-prog-txt">0 / 0 已掌握</span>
+    </div>
+    <!-- 语法列表 -->
+    <div id="gram-list"></div>
+    <!-- 自由练习入口 -->
+    <div class="gram-free-card" onclick="startGramFree()">
+      <div class="mode-icon blue" style="width:42px;height:42px;font-size:1.3rem">🎲</div>
+      <div class="mode-info">
+        <div class="mode-title">语法自由练习</div>
+        <div class="mode-desc">随机抽题，每次可选数量</div>
+      </div>
+      <div class="mode-arrow">›</div>
+    </div>
+  </div>
+
+  <!-- 页面：语法讲解 + 两道练习题 -->
+  <div id="page-gram-detail" class="page hidden">
+    <div class="flash-phase-header" style="margin-bottom:16px">
+      <div>
+        <div class="section-title" style="margin-bottom:2px" id="gd-level-label">N5 语法</div>
+        <div style="font-size:0.78rem;color:var(--text-2)" id="gd-index-label">第 1 / 30 条</div>
+      </div>
+      <button class="btn-prev" style="padding:6px 14px;border-radius:8px;font-size:0.8rem" onclick="goPage('page-grammar')">返回</button>
+    </div>
+
+    <!-- 语法说明卡 -->
+    <div class="gram-explain-card">
+      <div class="gram-point-title" id="gd-title"></div>
+      <div class="gram-point-meaning" id="gd-meaning"></div>
+      <div class="gram-point-structure" id="gd-structure"></div>
+      <div class="gram-examples" id="gd-examples"></div>
+    </div>
+
+    <!-- 练习题区 -->
+    <div class="section-title" style="margin-top:16px" id="gd-quiz-title">练习题（2/2）</div>
+    <div id="gd-quiz-area"></div>
+    <!-- 完成提示 -->
+    <div id="gd-complete-tip" class="hidden" style="text-align:center;padding:20px 0">
+      <div style="font-size:2rem">🏆</div>
+      <div style="font-weight:700;margin:8px 0">语法点已掌握！</div>
+      <button class="btn-next" style="padding:12px 32px;border-radius:8px" onclick="goPage('page-grammar')">返回列表</button>
+    </div>
+  </div>
+
+  <!-- 页面：语法自由练习 -->
+  <div id="page-gram-free" class="page hidden">
+    <!-- 设置界面 -->
+    <div id="gfree-setup">
+      <div class="section-title">语法自由练习</div>
+      <div class="gram-explain-card" style="gap:12px">
+        <div style="font-size:0.9rem;color:var(--text-2)">选择本次练习题数</div>
+        <div class="gfree-count-row">
+          <button class="gfree-count-btn active" onclick="selectGFreeCount(this,10)">10题</button>
+          <button class="gfree-count-btn" onclick="selectGFreeCount(this,20)">20题</button>
+          <button class="gfree-count-btn" onclick="selectGFreeCount(this,30)">30题</button>
+          <button class="gfree-count-btn" onclick="selectGFreeCount(this,50)">50题</button>
+        </div>
+        <div style="font-size:0.85rem;color:var(--text-2)">题目范围</div>
+        <div class="gfree-count-row">
+          <button class="gfree-count-btn active" id="gfree-scope-n5" onclick="selectGFreeScope(this,'N5')">N5</button>
+          <button class="gfree-count-btn" id="gfree-scope-n4" onclick="selectGFreeScope(this,'N4')">N4</button>
+          <button class="gfree-count-btn" id="gfree-scope-all" onclick="selectGFreeScope(this,'ALL')">全部</button>
+        </div>
+      </div>
+      <button class="btn-next" style="width:100%;padding:14px;border-radius:10px;margin-top:4px;font-size:1rem" onclick="beginGFree()">开始练习 →</button>
+      <button class="btn-prev" style="width:100%;padding:12px;border-radius:8px;margin-top:10px" onclick="goPage('page-grammar')">← 返回</button>
+    </div>
+
+    <!-- 练习界面 -->
+    <div id="gfree-quiz" class="hidden">
+      <div class="flash-phase-header" style="margin-bottom:8px">
+        <div style="font-size:0.78rem;color:var(--text-2)" id="gfree-progress-label">第 1 题 / 共 10 题</div>
+        <div class="test-score-chip" id="gfree-score-chip">✅ 0 &nbsp;❌ 0</div>
+      </div>
+      <div class="quiz-prog-bar" style="margin-bottom:14px">
+        <div class="quiz-prog-fill" id="gfree-prog-fill" style="width:0%"></div>
+      </div>
+      <div id="gfree-question-wrap"></div>
+      <div id="gfree-feedback" class="hidden"></div>
+      <button class="btn-next-quiz hidden" id="btn-gfree-next" onclick="nextGFreeQ()">下一题 →</button>
+    </div>
+
+    <!-- 结果界面 -->
+    <div id="gfree-result" class="hidden">
+      <div class="word-card" style="text-align:center;gap:14px;padding:30px 20px">
+        <div style="font-size:2.5rem" id="gfree-result-emoji">🎉</div>
+        <div style="font-size:1.3rem;font-weight:700">练习完成！</div>
+        <div id="gfree-result-text" style="color:var(--text-2);font-size:0.9rem;line-height:1.7"></div>
+        <div style="display:flex;gap:10px;width:100%;margin-top:8px">
+          <button class="btn-prev" style="flex:1;padding:12px;border-radius:8px" onclick="goPage('page-grammar')">← 返回</button>
+          <button class="btn-next" style="flex:1;padding:12px;border-radius:8px" onclick="beginGFree()">再练一次</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- 页面：统计 -->
   <div id="page-stats" class="page hidden">
     <div class="section-title">学习统计</div>
@@ -1085,13 +1347,13 @@ input{font-family:inherit;outline:none}
     <span class="nav-icon">🏠</span>首页
   </button>
   <button class="nav-btn" id="nav-flash" onclick="startFlash();setNav('nav-flash')">
-    <span class="nav-icon">📖</span>学习
+    <span class="nav-icon">📖</span>单词
+  </button>
+  <button class="nav-btn" id="nav-grammar" onclick="goPage('page-grammar');renderGramList();setNav('nav-grammar')">
+    <span class="nav-icon">📝</span>语法
   </button>
   <button class="nav-btn" id="nav-quiz" onclick="startQuiz();setNav('nav-quiz')">
     <span class="nav-icon">🎯</span>练习
-  </button>
-  <button class="nav-btn" id="nav-wrong" onclick="goPage('page-wrong');setNav('nav-wrong')">
-    <span class="nav-icon">❌</span>错题
   </button>
   <button class="nav-btn" id="nav-stats" onclick="goPage('page-stats');renderStats();setNav('nav-stats')">
     <span class="nav-icon">📊</span>统计
@@ -2145,13 +2407,21 @@ window.addEventListener('load', ()=>{
 // 七、页面切换
 // =============================================
 function goPage(pid){
-  document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
+  document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
   const el = document.getElementById(pid);
-  if(el){ el.classList.remove('hidden'); el.classList.add('fade-in'); }
-  // 按需渲染
-  if(pid==='page-wrong') renderWrong();
-  if(pid==='page-stats') renderStats();
+  if(el){ el.classList.remove("hidden"); el.classList.add("fade-in"); }
+  if(pid==="page-wrong") renderWrong();
+  if(pid==="page-stats") renderStats();
+  if(pid==="page-grammar") renderGramList(false);
 }
+
+
+
+
+
+
+
+
 
 function setNav(id){
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
@@ -2176,22 +2446,14 @@ function setLevel(lv){
 }
 
 function renderHomeProgress(){
-  const prog = loadProgress();
-  let seen, total;
-  if(currentLevel==='N5'){
-    total = VOCAB_N5.length;
-    seen = Math.min(((prog.groupN5||0)+1)*GROUP_SIZE, total);
-  } else if(currentLevel==='N4'){
-    total = VOCAB_N4.length;
-    seen = Math.min(((prog.groupN4||0)+1)*GROUP_SIZE, total);
-  } else {
-    total = VOCAB_N5.length + VOCAB_N4.length;
-    seen = Math.min(((prog.groupN5||0)+1)*GROUP_SIZE, VOCAB_N5.length)
-         + Math.min(((prog.groupN4||0)+1)*GROUP_SIZE, VOCAB_N4.length);
-  }
+  // 随机模式下进度改为：显示词库总词数
+  const total = currentVocab.length;
+  const s = loadStats();
+  // 用答对题数估算已熟悉词汇（最多=total）
+  const seen = Math.min(s.correct||0, total);
   const pct = total>0 ? Math.min(100,Math.round(seen/total*100)) : 0;
-  document.getElementById('home-prog-fill').style.width = pct+'%';
-  document.getElementById('home-prog-text').textContent = seen+' / '+total;
+  document.getElementById("home-prog-fill").style.width = pct+"%";
+  document.getElementById("home-prog-text").textContent = "词库共 "+total+" 词";
 }
 
 // =============================================
@@ -2227,19 +2489,14 @@ let testCorrect    = 0;  // 本组答对数
 let testWrongWords = []; // 本组答错的词
 
 function startFlash(){
-  // 按等级分组
+  // 每次进入都从完整词库随机打乱，再切成10个一组
+  const shuffled = [...currentVocab].sort(() => Math.random() - 0.5);
   flashGroups = [];
-  for(let i=0;i<currentVocab.length;i+=GROUP_SIZE){
-    flashGroups.push(currentVocab.slice(i,i+GROUP_SIZE));
+  for(let i = 0; i < shuffled.length; i += GROUP_SIZE){
+    flashGroups.push(shuffled.slice(i, i + GROUP_SIZE));
   }
-  // 恢复上次进度
-  const prog = loadProgress();
-  let savedGroup = 0;
-  if(currentLevel==='N5') savedGroup = prog.groupN5||0;
-  else if(currentLevel==='N4') savedGroup = prog.groupN4||0;
-  flashGroupIdx = Math.min(savedGroup, flashGroups.length-1);
+  flashGroupIdx = 0;
   flashCardIdx  = 0;
-
   showStudyPhase();
 }
 
@@ -2291,11 +2548,7 @@ function renderFlashCard(){
   const card = document.getElementById('word-card');
   card.classList.remove('fade-in'); void card.offsetWidth; card.classList.add('fade-in');
 
-  // 保存进度
-  const prog = loadProgress();
-  if(currentLevel==='N5') prog.groupN5 = flashGroupIdx;
-  else if(currentLevel==='N4') prog.groupN4 = flashGroupIdx;
-  saveProgress(prog);
+  // 卡片动画后刷新进度显示
   renderHomeProgress();
 }
 
@@ -2803,6 +3056,1037 @@ function showToast(msg){
   el.classList.add('show');
   if(toastTimer) clearTimeout(toastTimer);
   toastTimer = setTimeout(()=>el.classList.remove('show'), 2200);
+}
+
+
+// =============================================
+// 语法模块 - 数据
+// =============================================
+const GRAMMAR_N5 = [
+  // ===== 1. 基础句型 =====
+  {id:'n5_g01',title:'〜は〜です',meaning:'…是…（名词谓语句）',difficulty:1,
+   structure:'名词A は 名词B です',
+   examples:[{jp:'私は学生です。',zh:'我是学生。'},{jp:'これは本です。',zh:'这是书。'}],
+   questions:[
+     {q:'私___学生です。',blank:'は',opts:['は','が','を','で'],answer:'は',tip:'「は」是主题助词，「は〜です」表示"…是…"。'},
+     {q:'あれ___山です。',blank:'は',opts:['に','は','も','と'],answer:'は',tip:'「あれは〜です」表示"那是〜"，「は」标记主题。'}
+   ]},
+  {id:'n5_g02',title:'〜は〜じゃないです',meaning:'…不是…（名词否定）',difficulty:1,
+   structure:'名词 は 名词 じゃないです／ではありません',
+   examples:[{jp:'私は先生じゃないです。',zh:'我不是老师。'},{jp:'これは猫ではありません。',zh:'这不是猫。'}],
+   questions:[
+     {q:'私は先生___ないです。',blank:'じゃ',opts:['じゃ','では','が','も'],answer:'じゃ',tip:'口语否定用「じゃないです」，书面语用「ではありません」。'},
+     {q:'これは犬___ありません。',blank:'では',opts:['では','じゃ','は','が'],answer:'では',tip:'「ではありません」是「じゃないです」的正式说法。'}
+   ]},
+  {id:'n5_g03',title:'〜がありますいます',meaning:'有〜（存在句）',difficulty:1,
+   structure:'场所 に 物 が あります／人 が います',
+   examples:[{jp:'机の上に本があります。',zh:'桌子上有书。'},{jp:'公園に子供がいます。',zh:'公园里有孩子。'}],
+   questions:[
+     {q:'机の上に本___あります。',blank:'が',opts:['が','は','を','に'],answer:'が',tip:'存在句中，存在的事物用「が」标记。'},
+     {q:'部屋に猫___います。',blank:'が',opts:['は','を','が','で'],answer:'が',tip:'「います」用于有生命，「あります」用于无生命。'}
+   ]},
+  // ===== 2. 助词 =====
+  {id:'n5_g04',title:'を（宾语助词）',meaning:'标记动作的对象',difficulty:1,
+   structure:'名词 を 动词ます',
+   examples:[{jp:'ご飯を食べます。',zh:'吃饭。'},{jp:'音楽を聞きます。',zh:'听音乐。'}],
+   questions:[
+     {q:'コーヒー___飲みます。',blank:'を',opts:['が','を','は','で'],answer:'を',tip:'「を」是宾语助词，标记他动词的作用对象。'},
+     {q:'本___読みます。',blank:'を',opts:['に','を','は','が'],answer:'を',tip:'动词的直接宾语前用「を」。'}
+   ]},
+  {id:'n5_g05',title:'に（目的地・时间）',meaning:'去〜（目的地）／在〜时刻',difficulty:1,
+   structure:'场所 に 行きます；时间 に 動詞',
+   examples:[{jp:'学校に行きます。',zh:'去学校。'},{jp:'7時に起きます。',zh:'7点起床。'}],
+   questions:[
+     {q:'学校___行きます。',blank:'に',opts:['を','で','に','へ'],answer:'に',tip:'移动动词（行く・来る・帰る）的目的地用「に」或「へ」。'},
+     {q:'7時___起きます。',blank:'に',opts:['が','は','で','に'],answer:'に',tip:'表示具体时刻用「に」，但「今日・明日・毎日」等不加「に」。'}
+   ]},
+  {id:'n5_g06',title:'で（场所・手段）',meaning:'在〜做／用〜（手段工具）',difficulty:1,
+   structure:'场所 で 动词；手段 で 动词',
+   examples:[{jp:'図書館で勉強します。',zh:'在图书馆学习。'},{jp:'電車で行きます。',zh:'乘电车去。'}],
+   questions:[
+     {q:'図書館___勉強します。',blank:'で',opts:['に','を','で','が'],answer:'で',tip:'「で」表示动作发生的场所，区别于表示存在地点的「に」。'},
+     {q:'バス___学校に行きます。',blank:'で',opts:['に','へ','で','を'],answer:'で',tip:'「で」除了表示场所，也表示使用的交通工具或工具。'}
+   ]},
+  {id:'n5_g07',title:'と（并列・一起）',meaning:'和〜（并列、一起）',difficulty:1,
+   structure:'名词A と 名词B；名词 と 一緒に',
+   examples:[{jp:'パンと卵を買います。',zh:'买面包和鸡蛋。'},{jp:'友達と映画を見ます。',zh:'和朋友看电影。'}],
+   questions:[
+     {q:'パン___卵を買います。',blank:'と',opts:['と','や','か','も'],answer:'と',tip:'「と」并列名词，表示全部列举；「や」是部分列举。'},
+     {q:'友達___一緒に行きます。',blank:'と',opts:['に','と','が','で'],answer:'と',tip:'「と一緒に」表示"和某人一起"。'}
+   ]},
+  {id:'n5_g08',title:'も（附加）',meaning:'…也（附加相同属性）',difficulty:1,
+   structure:'名词 も 〜；替换は・が使用',
+   examples:[{jp:'私も学生です。',zh:'我也是学生。'},{jp:'コーヒーも飲みます。',zh:'也喝咖啡。'}],
+   questions:[
+     {q:'私___学生です。',blank:'も',opts:['は','が','も','を'],answer:'も',tip:'「も」表示"也"，附加相同的属性或动作。'},
+     {q:'田中さん___来ます。',blank:'も',opts:['に','も','が','は'],answer:'も',tip:'「も」替换「は」或「が」使用。'}
+   ]},
+  {id:'n5_g09',title:'〜から〜まで',meaning:'从〜到〜（时间・空间范围）',difficulty:2,
+   structure:'起点 から 终点 まで',
+   examples:[{jp:'9時から5時まで働きます。',zh:'从9点工作到5点。'},{jp:'東京から大阪まで行きます。',zh:'从东京去大阪。'}],
+   questions:[
+     {q:'9時___5時まで働きます。',blank:'から',opts:['まで','から','に','で'],answer:'から',tip:'「から」表示起点，「まで」表示终点。'},
+     {q:'家から学校___歩きます。',blank:'まで',opts:['に','から','まで','へ'],answer:'まで',tip:'「まで」表示到达的终点。'}
+   ]},
+  // ===== 3. 动词礼貌体 =====
+  {id:'n5_g10',title:'〜ませんか',meaning:'要不要〜？（邀请）',difficulty:2,
+   structure:'动词ます形 + ませんか',
+   examples:[{jp:'一緒に映画を見ませんか。',zh:'要不要一起看电影？'},{jp:'コーヒーを飲みませんか。',zh:'要不要喝咖啡？'}],
+   questions:[
+     {q:'一緒に食べ___か。',blank:'ませんか',opts:['ませんか','ましょう','ません','ますか'],answer:'ませんか',tip:'「〜ませんか」是委婉的邀请表达。'},
+     {q:'公園を散歩し___。',blank:'ませんか',opts:['ましょうか','ませんか','ません','ますか'],answer:'ませんか',tip:'邀请用「ませんか」，提议一起做用「ましょう」。'}
+   ]},
+  {id:'n5_g11',title:'〜ましょう',meaning:'我们〜吧（提议）',difficulty:2,
+   structure:'动词ます形 + ましょう',
+   examples:[{jp:'一緒に行きましょう。',zh:'我们一起去吧。'},{jp:'休みましょう。',zh:'休息一下吧。'}],
+   questions:[
+     {q:'一緒に食べ___。',blank:'ましょう',opts:['ませんか','ましょう','ません','ます'],answer:'ましょう',tip:'「ましょう」表示说话人主动提议一起做某事。'},
+     {q:'少し休み___。',blank:'ましょう',opts:['ますか','ませんか','ましょう','ません'],answer:'ましょう',tip:'「ましょう」相当于中文"我们……吧"。'}
+   ]},
+  {id:'n5_g12',title:'〜ました／ませんでした',meaning:'做了〜／没做〜（过去式）',difficulty:2,
+   structure:'ます→ました（肯定）；ません→ませんでした（否定）',
+   examples:[{jp:'昨日映画を見ました。',zh:'昨天看了电影。'},{jp:'宿題をしませんでした。',zh:'没做作业。'}],
+   questions:[
+     {q:'昨日、映画を見___。',blank:'ました',opts:['ます','ました','ません','ませんでした'],answer:'ました',tip:'「〜ました」是动词过去肯定式。'},
+     {q:'昨日は学校に行き___。',blank:'ませんでした',opts:['ました','ません','ませんでした','ましょう'],answer:'ませんでした',tip:'「〜ませんでした」是过去否定式。'}
+   ]},
+  {id:'n5_g13',title:'〜ましょうか',meaning:'我来做〜吧？（提议帮忙）',difficulty:2,
+   structure:'动词ます形 + ましょうか',
+   examples:[{jp:'荷物を持ちましょうか。',zh:'我来帮你拿行李吧？'},{jp:'窓を開けましょうか。',zh:'要我来开窗吗？'}],
+   questions:[
+     {q:'荷物を持ち___。',blank:'ましょうか',opts:['ましょうか','ましょう','ませんか','ますか'],answer:'ましょうか',tip:'「〜ましょうか」表示主动提议为对方做某事。'},
+     {q:'窓を開け___。',blank:'ましょうか',opts:['ませんか','ましょう','ましょうか','ますか'],answer:'ましょうか',tip:'「ましょうか」多用于提议帮助对方，「ましょう」是一起做。'}
+   ]},
+  // ===== 4. て形 =====
+  {id:'n5_g14',title:'〜てください',meaning:'请做〜（请求）',difficulty:2,
+   structure:'动词て形 + ください',
+   examples:[{jp:'ここに座ってください。',zh:'请坐这里。'},{jp:'ゆっくり話してください。',zh:'请慢慢说。'}],
+   questions:[
+     {q:'ここに座っ___。',blank:'てください',opts:['てください','ています','てから','ても'],answer:'てください',tip:'「〜てください」是礼貌的请求表达。'},
+     {q:'窓を開け___。',blank:'てください',opts:['てください','ています','ていません','てから'],answer:'てください',tip:'动词て形 + ください 构成请求句。'}
+   ]},
+  {id:'n5_g15',title:'〜ています',meaning:'正在〜／〜的状态',difficulty:2,
+   structure:'动词て形 + います',
+   examples:[{jp:'今、ご飯を食べています。',zh:'现在正在吃饭。'},{jp:'結婚しています。',zh:'已婚（状态）。'}],
+   questions:[
+     {q:'今、本を読ん___います。',blank:'で',opts:['で','て','に','が'],answer:'で',tip:'「読む」的て形是「読んで」，接「います」表示正在进行。'},
+     {q:'雨が降っ___。',blank:'ています',opts:['ています','ました','ません','てから'],answer:'ています',tip:'「〜ています」表示动作进行中或结果状态的持续。'}
+   ]},
+  {id:'n5_g16',title:'〜てから',meaning:'做完〜之后',difficulty:3,
+   structure:'动词て形 + から',
+   examples:[{jp:'手を洗ってから食べます。',zh:'洗完手再吃。'},{jp:'宿題をしてから遊びます。',zh:'做完作业再玩。'}],
+   questions:[
+     {q:'手を洗っ___食べます。',blank:'てから',opts:['てから','てもいい','ては','ている'],answer:'てから',tip:'「〜てから」表示先做前项，再做后项，强调顺序。'},
+     {q:'シャワーを浴び___寝ます。',blank:'てから',opts:['てから','ながら','ために','ても'],answer:'てから',tip:'「〜てから」前后两个动作有明确先后顺序。'}
+   ]},
+  {id:'n5_g17',title:'〜ながら',meaning:'一边〜一边〜',difficulty:3,
+   structure:'动词ます形（去ます）+ ながら + 主要动作',
+   examples:[{jp:'音楽を聞きながら勉強します。',zh:'一边听音乐一边学习。'},{jp:'歩きながら話します。',zh:'边走边说话。'}],
+   questions:[
+     {q:'音楽を聞き___勉強します。',blank:'ながら',opts:['ながら','てから','ために','ても'],answer:'ながら',tip:'「〜ながら」表示两个动作同时进行，主要动作在后半句。'},
+     {q:'テレビを見___ご飯を食べます。',blank:'ながら',opts:['てから','ながら','ために','ても'],answer:'ながら',tip:'「ながら」前的动作是次要动作，后面的是主要动作。'}
+   ]},
+  // ===== 5. 许可与禁止 =====
+  {id:'n5_g18',title:'〜てもいいですか',meaning:'可以〜吗？（许可请求）',difficulty:2,
+   structure:'动词て形 + もいいですか',
+   examples:[{jp:'ここに座ってもいいですか。',zh:'可以坐这里吗？'},{jp:'写真を撮ってもいいですか。',zh:'可以拍照吗？'}],
+   questions:[
+     {q:'ここに座っ___ですか。',blank:'てもいい',opts:['てもいい','てください','てから','ている'],answer:'てもいい',tip:'「〜てもいいですか」请求对方许可自己做某事。'},
+     {q:'窓を開け___いいですか。',blank:'ても',opts:['ても','では','ては','てが'],answer:'ても',tip:'回答：いいですよ（可以）/ だめです（不行）。'}
+   ]},
+  {id:'n5_g19',title:'〜てはいけません',meaning:'不可以〜（禁止）',difficulty:3,
+   structure:'动词て形 + はいけません',
+   examples:[{jp:'ここでタバコを吸ってはいけません。',zh:'这里不可以抽烟。'},{jp:'授業中に携帯を使ってはいけません。',zh:'上课时不可以用手机。'}],
+   questions:[
+     {q:'ここで写真を撮っ___いけません。',blank:'ては',opts:['ては','ても','てが','てに'],answer:'ては',tip:'「〜てはいけません」表示禁止，相当于"不可以……"。'},
+     {q:'授業中に話し___はいけません。',blank:'て',opts:['て','に','が','を'],answer:'て',tip:'「〜てはいけない」是禁止表达，正式场合用「〜てはいけません」。'}
+   ]},
+  // ===== 6. 义务与愿望 =====
+  {id:'n5_g20',title:'〜なければなりません',meaning:'必须〜（义务）',difficulty:3,
+   structure:'动词ない形（去い）+ なければなりません',
+   examples:[{jp:'薬を飲まなければなりません。',zh:'必须喝药。'},{jp:'宿題をしなければなりません。',zh:'必须做作业。'}],
+   questions:[
+     {q:'薬を飲ま___なりません。',blank:'なければ',opts:['なければ','なくて','ないで','ずに'],answer:'なければ',tip:'「〜なければなりません」表示义务，相当于"必须……"。'},
+     {q:'明日早く起き___なりません。',blank:'なければ',opts:['なければ','なくても','ても','でも'],answer:'なければ',tip:'口语也可以说「〜なきゃ」。'}
+   ]},
+  {id:'n5_g21',title:'〜たいです',meaning:'想做〜（愿望）',difficulty:2,
+   structure:'动词ます形（去ます）+ たいです',
+   examples:[{jp:'日本に行きたいです。',zh:'想去日本。'},{jp:'ケーキを食べたいです。',zh:'想吃蛋糕。'}],
+   questions:[
+     {q:'日本に行き___です。',blank:'たい',opts:['たい','ない','たかった','たく'],answer:'たい',tip:'「〜たい」表示说话人自己的愿望，接在动词ます形去ます后。'},
+     {q:'水が飲み___です。',blank:'たい',opts:['ない','たい','てい','でい'],answer:'たい',tip:'「〜たい」的对象可以用「が」或「を」标记。'}
+   ]},
+  {id:'n5_g22',title:'〜つもりです',meaning:'打算〜（意图计划）',difficulty:2,
+   structure:'动词辞书形 + つもりです',
+   examples:[{jp:'来年、日本に行くつもりです。',zh:'打算明年去日本。'},{jp:'大学院に進むつもりはありません。',zh:'没打算读研究生。'}],
+   questions:[
+     {q:'来年、留学する___です。',blank:'つもり',opts:['つもり','はず','ため','こと'],answer:'つもり',tip:'「〜つもりです」表示说话人自己的意图和打算。'},
+     {q:'週末は家にいる___です。',blank:'つもり',opts:['はず','つもり','らしい','ようだ'],answer:'つもり',tip:'否定：「〜するつもりはありません」表示没打算做。'}
+   ]},
+  // ===== 7. 形容词 =====
+  {id:'n5_g23',title:'い形容词活用',meaning:'い形容词否定・过去形',difficulty:2,
+   structure:'〜い→〜くない（否定）；〜い→〜かった（过去）',
+   examples:[{jp:'このケーキは甘くないです。',zh:'这个蛋糕不甜。'},{jp:'昨日は寒かったです。',zh:'昨天很冷。'}],
+   questions:[
+     {q:'このケーキは甘___ないです。',blank:'く',opts:['く','じゃ','では','に'],answer:'く',tip:'い形容词否定：去い加「くない」。「甘い→甘くない」。'},
+     {q:'昨日は寒___です。',blank:'かった',opts:['かった','でした','くない','くて'],answer:'かった',tip:'い形容词过去肯定：去い加「かった」。'}
+   ]},
+  {id:'n5_g24',title:'な形容词活用',meaning:'な形容词否定・过去形',difficulty:2,
+   structure:'〜じゃない／ではない（否定）；〜だった（过去）',
+   examples:[{jp:'この部屋はきれいじゃないです。',zh:'这个房间不干净。'},{jp:'昨日は暇でした。',zh:'昨天很闲。'}],
+   questions:[
+     {q:'この部屋はきれい___ないです。',blank:'じゃ',opts:['じゃ','く','に','で'],answer:'じゃ',tip:'な形容词否定口语：「じゃないです」；书面语：「ではないです」。'},
+     {q:'昨日は元気___した。',blank:'でした',opts:['でした','かった','じゃない','くない'],answer:'でした',tip:'な形容词过去肯定：词干 + でした。'}
+   ]},
+  // ===== 8. 比较 =====
+  {id:'n5_g25',title:'〜より〜のほうが',meaning:'〜比〜更〜',difficulty:2,
+   structure:'AよりBのほうが〜い／〜だ',
+   examples:[{jp:'電車よりバスのほうが安いです。',zh:'公交车比电车便宜。'},{jp:'夏より冬のほうが好きです。',zh:'比起夏天我更喜欢冬天。'}],
+   questions:[
+     {q:'電車___バスのほうが安いです。',blank:'より',opts:['より','から','まで','ほど'],answer:'より',tip:'「AよりBのほうが〜」表示B比A更……。'},
+     {q:'犬___猫のほうが好きです。',blank:'より',opts:['に','より','が','と'],answer:'より',tip:'「より」接在比较基准后面。'}
+   ]},
+  {id:'n5_g26',title:'〜の中でいちばん',meaning:'在〜中最〜（最高级）',difficulty:2,
+   structure:'〜の中で 〜が いちばん〜',
+   examples:[{jp:'果物の中でりんごがいちばん好きです。',zh:'在水果中最喜欢苹果。'},{jp:'クラスの中で田中さんがいちばん背が高いです。',zh:'班里田中最高。'}],
+   questions:[
+     {q:'果物の中でりんごが___好きです。',blank:'いちばん',opts:['いちばん','もっと','より','ほど'],answer:'いちばん',tip:'「〜の中でいちばん〜」表示最高级。'},
+     {q:'季節の中で春が___好きです。',blank:'いちばん',opts:['もっと','いちばん','より','ずっと'],answer:'いちばん',tip:'「いちばん」相当于"最"。'}
+   ]},
+  // ===== 9. 接续 =====
+  {id:'n5_g27',title:'〜が（逆接）',meaning:'但是、不过（轻微转折）',difficulty:2,
+   structure:'文A + が、文B',
+   examples:[{jp:'日本語は難しいですが、面白いです。',zh:'日语虽然难，但很有意思。'},{jp:'行きたいですが、時間がありません。',zh:'想去，但没有时间。'}],
+   questions:[
+     {q:'日本語は難しい___、面白いです。',blank:'が',opts:['が','から','ので','し'],answer:'が',tip:'句中「が」表示轻微转折，相当于"但是"。'},
+     {q:'行きたい___、お金がありません。',blank:'が',opts:['ので','が','から','けど'],answer:'が',tip:'「が」的转折语气比「でも」更正式。'}
+   ]},
+  {id:'n5_g28',title:'〜から（原因）',meaning:'因为〜（所以〜）',difficulty:2,
+   structure:'文A（普通体/敬体）から、文B',
+   examples:[{jp:'雨が降っているから、傘を持ちます。',zh:'因为下雨，所以带伞。'},{jp:'疲れたから、休みます。',zh:'因为累了，所以休息。'}],
+   questions:[
+     {q:'雨が降っている___、傘を持ちます。',blank:'から',opts:['から','ので','が','けど'],answer:'から',tip:'「から」表示原因，语气较主观，常用于口语。'},
+     {q:'眠い___、早く寝ます。',blank:'から',opts:['ので','が','から','けど'],answer:'から',tip:'「〜から、〜」前句是原因，后句是结果。'}
+   ]},
+  {id:'n5_g29',title:'〜ので（客观原因）',meaning:'因为〜（客观礼貌）',difficulty:3,
+   structure:'普通体（な形+な、名词+な）+ ので',
+   examples:[{jp:'電車が遅れたので、遅刻しました。',zh:'因为电车晚点，所以迟到了。'},{jp:'明日は休日なので、学校はありません。',zh:'因为明天是假日，所以没有课。'}],
+   questions:[
+     {q:'電車が遅れた___、遅刻しました。',blank:'ので',opts:['から','ので','が','けど'],answer:'ので',tip:'「ので」表示客观原因，语气比「から」更委婉礼貌。'},
+     {q:'明日は休日な___、学校はありません。',blank:'ので',opts:['ので','から','が','し'],answer:'ので',tip:'な形容词和名词后接「なので」。'}
+   ]},
+  // ===== 10. 推测与引用 =====
+  {id:'n5_g30',title:'〜でしょう',meaning:'大概是〜吧（推测）',difficulty:2,
+   structure:'普通体 + でしょう',
+   examples:[{jp:'明日は晴れるでしょう。',zh:'明天大概会晴。'},{jp:'彼は来ないでしょう。',zh:'他大概不会来吧。'}],
+   questions:[
+     {q:'明日は雨___。',blank:'でしょう',opts:['でしょう','です','でした','ですか'],answer:'でしょう',tip:'「〜でしょう」表示不确定推测，相当于"大概……吧"。'},
+     {q:'彼は知らない___。',blank:'でしょう',opts:['でしょう','ですね','でした','ですか'],answer:'でしょう',tip:'语调上升时是疑问，语调下降时是推测。'}
+   ]},
+  {id:'n5_g31',title:'〜と思います',meaning:'我认为〜（主观判断）',difficulty:3,
+   structure:'普通体 + と思います',
+   examples:[{jp:'明日は雨だと思います。',zh:'我认为明天会下雨。'},{jp:'彼は来ないと思います。',zh:'我认为他不会来。'}],
+   questions:[
+     {q:'明日は雨だ___思います。',blank:'と',opts:['と','が','を','は'],answer:'と',tip:'「〜と思います」表达个人看法，前接普通体（简体形）。'},
+     {q:'彼は来ない___思います。',blank:'と',opts:['が','を','と','に'],answer:'と',tip:'「と」是引用助词，引用想法内容。'}
+   ]},
+  {id:'n5_g32',title:'〜と言います',meaning:'说的是〜（引用）',difficulty:2,
+   structure:'「引用内容」と言います',
+   examples:[{jp:'先生は「頑張ってください」と言いました。',zh:'老师说"请加油"。'},{jp:'これを日本語で何と言いますか。',zh:'这个用日语怎么说？'}],
+   questions:[
+     {q:'先生は「頑張れ」___言いました。',blank:'と',opts:['と','が','を','で'],answer:'と',tip:'「〜と言います」用「と」引用说话的内容。'},
+     {q:'これは日本語で何___言いますか。',blank:'と',opts:['に','が','と','を'],answer:'と',tip:'「何と言いますか」询问某事物的说法。'}
+   ]},
+  // ===== 11. 条件 =====
+  {id:'n5_g33',title:'〜たら',meaning:'如果〜的话（假定条件）',difficulty:3,
+   structure:'动词た形 + ら',
+   examples:[{jp:'春になったら、花見をします。',zh:'到了春天，就去赏花。'},{jp:'雨が止んだら、出かけましょう。',zh:'如果雨停了，我们就出门吧。'}],
+   questions:[
+     {q:'家に帰っ___、電話してください。',blank:'たら',opts:['たら','てから','ながら','ても'],answer:'たら',tip:'「〜たら」表示假设条件，前项实现后进行后项。'},
+     {q:'暇だっ___、来てください。',blank:'たら',opts:['たら','から','ので','が'],answer:'たら',tip:'「〜たら」也可用于名词和形容词（暇だったら）。'}
+   ]},
+  {id:'n5_g34',title:'〜ても',meaning:'即使〜也（让步）',difficulty:3,
+   structure:'动词て形 + も；い形（去い）くても；な形でも',
+   examples:[{jp:'雨が降っても、出かけます。',zh:'即使下雨也要出门。'},{jp:'難しくても、諦めません。',zh:'即使困难也不放弃。'}],
+   questions:[
+     {q:'雨が降っ___、出かけます。',blank:'ても',opts:['ても','てから','ながら','てください'],answer:'ても',tip:'「〜ても」表示让步，相当于"即使……也……"。'},
+     {q:'難し___、諦めません。',blank:'くても',opts:['くても','くないで','くて','くなら'],answer:'くても',tip:'い形容词的「ても」形：去い加「くても」。'}
+   ]},
+  // ===== 12. 名词化与终助词 =====
+  {id:'n5_g35',title:'〜のが好きです',meaning:'喜欢做〜（名词化）',difficulty:3,
+   structure:'动词普通体 + のが 好きです／嫌いです／上手です',
+   examples:[{jp:'料理するのが好きです。',zh:'喜欢做饭。'},{jp:'歌うのが上手です。',zh:'擅长唱歌。'}],
+   questions:[
+     {q:'料理する___好きです。',blank:'のが',opts:['のが','ことが','をが','がを'],answer:'のが',tip:'动词后接「のが」名词化，用于「好き・嫌い・上手・下手」。'},
+     {q:'走る___得意です。',blank:'のが',opts:['のが','のを','のは','がの'],answer:'のが',tip:'「〜のが得意です」表示擅长某事。'}
+   ]},
+  {id:'n5_g36',title:'〜ね／よ（终助词）',meaning:'ね表确认，よ表断言',difficulty:1,
+   structure:'文末 + ね（共鸣确认）/ よ（强调告知）',
+   examples:[{jp:'いい天気ですね。',zh:'天气真好呢（对吧）？'},{jp:'この映画は面白いですよ。',zh:'这部电影很有趣哦。'}],
+   questions:[
+     {q:'いい天気です___。（共鸣确认）',blank:'ね',opts:['ね','よ','な','か'],answer:'ね',tip:'「ね」表示向对方确认或寻求共鸣，相当于"……对吧/呢"。'},
+     {q:'この店はおいしいです___。（告知信息）',blank:'よ',opts:['ね','よ','な','か'],answer:'よ',tip:'「よ」表示向对方传达信息或强调，相当于"……哦/呀"。'}
+   ]},
+  // ===== 13. 授受 =====
+  {id:'n5_g37',title:'あげる／もらう／くれる',meaning:'给予与接受（授受动词）',difficulty:3,
+   structure:'AはBに〜をあげます；AはBから〜をもらいます；BはAに〜をくれます',
+   examples:[{jp:'私は友達にプレゼントをあげました。',zh:'我给了朋友礼物。'},{jp:'友達にケーキをもらいました。',zh:'从朋友那里收到了蛋糕。'}],
+   questions:[
+     {q:'私は友達にプレゼントを___。',blank:'あげました',opts:['あげました','もらいました','くれました','いただきました'],answer:'あげました',tip:'「あげる」说话人给他人；「もらう」说话人从他人获得；「くれる」他人给说话人。'},
+     {q:'友達が私にお土産を___。',blank:'くれました',opts:['あげました','もらいました','くれました','さしあげました'],answer:'くれました',tip:'「くれる」的主语是他人（给予方），接受方是说话人。'}
+   ]},
+  // ===== 14. 存在与位置 =====
+  {id:'n5_g38',title:'〜の上に／下に etc.',meaning:'在〜上面／下面（位置表达）',difficulty:1,
+   structure:'基准 の 上／下／前／後ろ／中／隣 に',
+   examples:[{jp:'銀行は駅の前にあります。',zh:'银行在车站前面。'},{jp:'机の上に本があります。',zh:'桌子上有书。'}],
+   questions:[
+     {q:'本は机の___にあります。',blank:'上',opts:['上','下','前','中'],answer:'上',tip:'位置词：上（うえ）、下（した）、前（まえ）、後ろ（うしろ）、中（なか）、隣（となり）。'},
+     {q:'ねこはソファの___にいます。',blank:'上',opts:['上','前','中','下'],answer:'上',tip:'「〜の上にある/いる」表示在某物的上方。'}
+   ]},
+  // ===== 15. 数量词 =====
+  {id:'n5_g39',title:'量词（助数词）',meaning:'张・本・册・台・匹・頭',difficulty:2,
+   structure:'数字 + 量词（枚・本・冊・台・匹・頭 等）',
+   examples:[{jp:'紙を3枚ください。',zh:'请给我3张纸。'},{jp:'猫が2匹います。',zh:'有2只猫。'}],
+   questions:[
+     {q:'紙を3___ください。',blank:'枚',opts:['枚','本','冊','台'],answer:'枚',tip:'「枚」用于薄平的物体（纸、邮票等）。「本」用于细长物（笔、瓶子等）。'},
+     {q:'本が5___あります。',blank:'冊',opts:['枚','本','冊','台'],answer:'冊',tip:'「冊」用于书籍；「台」用于机器（车、电视等）。'}
+   ]},
+  // ===== 16. 补充 =====
+  {id:'n5_g40',title:'どんな／どのくらい',meaning:'什么样的／大概多少',difficulty:2,
+   structure:'どんな + 名词；どのくらい + 动词',
+   examples:[{jp:'どんな音楽が好きですか。',zh:'喜欢什么样的音乐？'},{jp:'駅までどのくらいかかりますか。',zh:'到车站大概要多长时间？'}],
+   questions:[
+     {q:'___音楽が好きですか。',blank:'どんな',opts:['どんな','どのくらい','どれくらい','いくら'],answer:'どんな',tip:'「どんな」修饰名词，询问性质或种类。'},
+     {q:'駅まで___かかりますか。',blank:'どのくらい',opts:['どんな','どのくらい','どれ','どこ'],answer:'どのくらい',tip:'「どのくらい」询问时间、距离、程度等数量。'}
+   ]},
+];
+
+const GRAMMAR_N4 = [
+  // ===== 1. 变化与状态 =====
+  {id:'n4_g01',title:'〜ようになる',meaning:'变得〜／开始〜',difficulty:1,
+   structure:'动词辞书形／ない形 + ようになる',
+   examples:[{jp:'日本語が話せるようになりました。',zh:'变得能说日语了。'},{jp:'野菜が食べられるようになりました。',zh:'开始能吃蔬菜了。'}],
+   questions:[
+     {q:'日本語が話せる___なりました。',blank:'ように',opts:['ように','ため','まま','こと'],answer:'ように',tip:'「〜ようになる」表示能力或习惯的变化，强调与以前不同。'},
+     {q:'毎日運動する___なりました。',blank:'ように',opts:['ため','ように','まま','から'],answer:'ように',tip:'「〜ようになる」可表示习惯的形成（开始做某事）。'}
+   ]},
+  {id:'n4_g02',title:'〜ようにする',meaning:'努力做到〜',difficulty:2,
+   structure:'动词辞书形／ない形 + ようにする',
+   examples:[{jp:'毎日運動するようにしています。',zh:'努力每天运动。'},{jp:'遅刻しないようにしてください。',zh:'请注意不要迟到。'}],
+   questions:[
+     {q:'毎日早く起きる___しています。',blank:'ように',opts:['ように','ため','まま','こと'],answer:'ように',tip:'「〜ようにする」表示努力让某事发生，或刻意保持某种状态。'},
+     {q:'忘れない___にしてください。',blank:'よう',opts:['よう','ため','こと','まま'],answer:'よう',tip:'「〜ないようにする」表示努力不做某事。'}
+   ]},
+  {id:'n4_g03',title:'〜くなる／になる',meaning:'变得〜（状态变化）',difficulty:1,
+   structure:'い形（去い）+ くなる；な形／名词 + になる',
+   examples:[{jp:'春になって、暖かくなりました。',zh:'到了春天，变暖了。'},{jp:'有名になりたいです。',zh:'想变得出名。'}],
+   questions:[
+     {q:'段々暖か___なりました。',blank:'く',opts:['く','に','が','で'],answer:'く',tip:'い形容词表示变化：去い + くなる。「暖かい→暖かくなる」。'},
+     {q:'医者___なりたいです。',blank:'に',opts:['に','く','が','で'],answer:'に',tip:'な形容词和名词表示变化：+ になる。'}
+   ]},
+  {id:'n4_g04',title:'〜てくる',meaning:'做〜回来／逐渐〜（变化）',difficulty:2,
+   structure:'动词て形 + くる',
+   examples:[{jp:'買い物をしてきました。',zh:'买完东西回来了。'},{jp:'だんだん上手になってきました。',zh:'渐渐变好了。'}],
+   questions:[
+     {q:'コンビニで買い物をし___ます。',blank:'てき',opts:['てき','ていき','ておき','てみ'],answer:'てき',tip:'「〜てくる」表示做完某事然后回来，或某状态从过去延续到现在。'},
+     {q:'春になって、暖かくなっ___。',blank:'てきました',opts:['てきました','ていきました','ておきました','てみました'],answer:'てきました',tip:'「〜てくる」表示变化从过去开始，延续至现在。'}
+   ]},
+  {id:'n4_g05',title:'〜ていく',meaning:'做〜离开／逐渐〜（今后变化）',difficulty:2,
+   structure:'动词て形 + いく',
+   examples:[{jp:'傘を持っていきます。',zh:'带着伞去（离开）。'},{jp:'これからもっと上手になっていくでしょう。',zh:'今后应该会越来越好吧。'}],
+   questions:[
+     {q:'傘を持っ___ます。',blank:'ていき',opts:['ていき','てき','ておき','てみ'],answer:'ていき',tip:'「〜ていく」表示拿着/做着某事离开，或某状态向未来延续。'},
+     {q:'これからも練習し___でしょう。',blank:'ていく',opts:['ていく','てくる','ておく','てみる'],answer:'ていく',tip:'「〜ていく」表示某种变化今后还会继续。'}
+   ]},
+  // ===== 2. 目的与尝试 =====
+  {id:'n4_g06',title:'〜ために',meaning:'为了〜（目的）',difficulty:1,
+   structure:'动词辞书形／名词の + ために',
+   examples:[{jp:'日本語を勉強するために、毎日練習します。',zh:'为了学日语，每天练习。'},{jp:'健康のために、野菜を食べます。',zh:'为了健康，吃蔬菜。'}],
+   questions:[
+     {q:'試験に合格する___勉強します。',blank:'ために',opts:['ために','ように','まま','から'],answer:'ために',tip:'「〜ために」表示目的，前接动词辞书形或名词+の。'},
+     {q:'健康___野菜を食べます。',blank:'のために',opts:['のために','ために','ように','のは'],answer:'のために',tip:'名词后接「のために」表示为了某个目的。'}
+   ]},
+  {id:'n4_g07',title:'〜てみる',meaning:'试着做〜',difficulty:1,
+   structure:'动词て形 + みる',
+   examples:[{jp:'この料理を食べてみます。',zh:'试着吃这道菜。'},{jp:'一度やってみてください。',zh:'请试着做一次。'}],
+   questions:[
+     {q:'この料理を食べ___ます。',blank:'てみ',opts:['てみ','ている','てから','てしまい'],answer:'てみ',tip:'「〜てみる」表示尝试做某件事，看看结果如何。'},
+     {q:'一度やっ___てください。',blank:'てみ',opts:['てみ','てしまっ','てから','ても'],answer:'てみ',tip:'「〜てみてください」请对方试一试。'}
+   ]},
+  // ===== 3. て形进阶 =====
+  {id:'n4_g08',title:'〜てしまう',meaning:'做完了〜／不小心〜',difficulty:2,
+   structure:'动词て形 + しまう',
+   examples:[{jp:'宿題を全部やってしまいました。',zh:'作业全做完了。'},{jp:'財布を忘れてしまいました。',zh:'不小心忘了钱包。'}],
+   questions:[
+     {q:'宿題を全部やっ___ました。',blank:'てしまい',opts:['てしまい','てみ','てから','ている'],answer:'てしまい',tip:'「〜てしまう」表示动作完结，有时含有遗憾或后悔的语气。'},
+     {q:'ケーキを全部食べ___ました。',blank:'てしまい',opts:['ている','てみ','てしまい','てから'],answer:'てしまい',tip:'口语中常说「〜ちゃった」（〜てしまった的缩略）。'}
+   ]},
+  {id:'n4_g09',title:'〜ておく',meaning:'预先做〜',difficulty:2,
+   structure:'动词て形 + おく',
+   examples:[{jp:'旅行の前に地図を調べておきます。',zh:'旅行前预先查好地图。'},{jp:'窓を開けておいてください。',zh:'请保持窗户开着。'}],
+   questions:[
+     {q:'試験の前に復習し___。',blank:'ておきます',opts:['ておきます','てみます','てあります','ています'],answer:'ておきます',tip:'「〜ておく」表示为了某个目的而事先做好某件事。'},
+     {q:'資料を準備し___。',blank:'ておきます',opts:['ています','ておきます','てみます','てしまいます'],answer:'ておきます',tip:'「〜ておく」口语常说「〜とく」。'}
+   ]},
+  {id:'n4_g10',title:'〜てある',meaning:'〜着（结果状态持续）',difficulty:2,
+   structure:'他动词て形 + ある',
+   examples:[{jp:'窓が開けてあります。',zh:'窗户开着（有人开的结果）。'},{jp:'名前が書いてあります。',zh:'写着名字。'}],
+   questions:[
+     {q:'黒板に名前が書い___あります。',blank:'て',opts:['て','で','に','が'],answer:'て',tip:'「〜てある」表示某人做了某动作，其结果状态保留着，通常用他动词。'},
+     {q:'花瓶に花が飾っ___。',blank:'てあります',opts:['ています','てあります','てみます','ておきます'],answer:'てあります',tip:'「〜てある」强调动作的结果，「〜ている」强调动作的进行或状态。'}
+   ]},
+  // ===== 4. 能力与经历 =====
+  {id:'n4_g11',title:'〜ことができる',meaning:'能做〜（能力）',difficulty:1,
+   structure:'动词辞书形 + ことができる',
+   examples:[{jp:'日本語を話すことができます。',zh:'能说日语。'},{jp:'車を運転することができません。',zh:'不会开车。'}],
+   questions:[
+     {q:'日本語を話す___できます。',blank:'ことが',opts:['ことが','のが','ため','ように'],answer:'ことが',tip:'「〜ことができる」与可能动词意思相同，更正式。'},
+     {q:'ここで写真を撮る___できますか。',blank:'ことが',opts:['のが','ことが','ために','ように'],answer:'ことが',tip:'「〜ことができる」也可以询问是否被允许做某事。'}
+   ]},
+  {id:'n4_g12',title:'〜たことがある',meaning:'曾经做过〜（经历）',difficulty:1,
+   structure:'动词た形 + ことがある',
+   examples:[{jp:'富士山に登ったことがあります。',zh:'曾经爬过富士山。'},{jp:'刺身を食べたことがありません。',zh:'没吃过生鱼片。'}],
+   questions:[
+     {q:'富士山に登っ___あります。',blank:'たことが',opts:['たことが','ていることが','てみることが','たことに'],answer:'たことが',tip:'「〜たことがある」表示有过某种经历，相当于"曾经……过"。'},
+     {q:'外国に行っ___ありますか。',blank:'たことが',opts:['たことが','てから','てみて','ておいて'],answer:'たことが',tip:'否定形：「〜たことがありません」表示没有某种经历。'}
+   ]},
+  // ===== 5. 推测 =====
+  {id:'n4_g13',title:'〜らしい（推测）',meaning:'好像〜／据说〜',difficulty:2,
+   structure:'名词／な形（去な）／い形／动词普通体 + らしい',
+   examples:[{jp:'明日は雨らしいです。',zh:'明天好像要下雨。'},{jp:'彼は学生らしいです。',zh:'他好像是学生。'}],
+   questions:[
+     {q:'明日は雪___です。',blank:'らしい',opts:['らしい','そう','ようだ','みたい'],answer:'らしい',tip:'「らしい」表示根据传闻或客观依据得出的推断。'},
+     {q:'あの人は有名人___です。',blank:'らしい',opts:['そう','みたい','らしい','ようだ'],answer:'らしい',tip:'「らしい」也可表示"符合……的样子"，如「先生らしい」。'}
+   ]},
+  {id:'n4_g14',title:'〜そうです（样态）',meaning:'看起来〜（样态推测）',difficulty:2,
+   structure:'い形（去い）／な形 + そうです；动词ます形（去ます）+ そうです',
+   examples:[{jp:'このケーキはおいしそうです。',zh:'这个蛋糕看起来很好吃。'},{jp:'雨が降りそうです。',zh:'好像要下雨了。'}],
+   questions:[
+     {q:'この料理はおいし___です。',blank:'そう',opts:['そう','らしい','ようだ','みたい'],answer:'そう',tip:'「〜そう」根据眼前观察做出推断，い形去い、な形去な后接そう。'},
+     {q:'彼は疲れ___です。',blank:'そう',opts:['らしい','そう','ようだ','はず'],answer:'そう',tip:'动词ます形去ます后接「そう」，表示"看起来快要……"。'}
+   ]},
+  {id:'n4_g15',title:'〜そうです（传闻）',meaning:'听说〜（传闻引用）',difficulty:2,
+   structure:'普通体 + そうです',
+   examples:[{jp:'天気予報によると、明日は雨が降るそうです。',zh:'据天气预报，明天会下雨。'},{jp:'彼は来ないそうです。',zh:'听说他不来。'}],
+   questions:[
+     {q:'田中さんは結婚した___です。',blank:'そう',opts:['そう','らしい','みたい','はず'],answer:'そう',tip:'传闻「そうです」前接普通体，与样态「そうです」用法不同。'},
+     {q:'来週、試験がある___です。',blank:'そう',opts:['よう','はず','そう','みたい'],answer:'そう',tip:'样态「そう」接形容词词干，传闻「そう」接普通体。'}
+   ]},
+  {id:'n4_g16',title:'〜ようだ／みたいだ',meaning:'好像〜（比喻・推测）',difficulty:2,
+   structure:'普通体（な形+な/名词+の）+ ようだ；名词・普通体 + みたいだ',
+   examples:[{jp:'まるで夢のようです。',zh:'简直像梦一样。'},{jp:'彼は疲れているみたいです。',zh:'他好像很疲惫。'}],
+   questions:[
+     {q:'まるで夢の___です。',blank:'よう',opts:['よう','らしい','そう','はず'],answer:'よう',tip:'「〜ようだ」表示基于说话人的直接判断推测，也用于比喻。'},
+     {q:'彼は疲れている___です。',blank:'みたい',opts:['らしい','みたい','そう','はず'],answer:'みたい',tip:'「みたいだ」是「ようだ」的口语形式。'}
+   ]},
+  {id:'n4_g17',title:'〜かもしれない',meaning:'也许〜（不确定推测）',difficulty:2,
+   structure:'普通体 + かもしれない',
+   examples:[{jp:'明日は雨かもしれません。',zh:'明天也许会下雨。'},{jp:'彼は知らないかもしれません。',zh:'他也许不知道。'}],
+   questions:[
+     {q:'明日は雪___しれません。',blank:'かも',opts:['かも','でも','ても','なら'],answer:'かも',tip:'「〜かもしれない」表示不确定的推测，比「でしょう」更不确定。'},
+     {q:'彼女は来ない___しれません。',blank:'かも',opts:['かも','でも','ように','から'],answer:'かも',tip:'礼貌体为「かもしれません」。'}
+   ]},
+  {id:'n4_g18',title:'〜はずだ',meaning:'应该〜（有依据的推断）',difficulty:2,
+   structure:'普通体（な形词干+な/名词+の）+ はずだ',
+   examples:[{jp:'彼はもう来るはずです。',zh:'他应该快来了。'},{jp:'そんなはずがありません。',zh:'不可能是那样的。'}],
+   questions:[
+     {q:'彼はもう来る___です。',blank:'はず',opts:['はず','こと','もの','よう'],answer:'はず',tip:'「〜はずだ」基于某种根据，推断某事理应如此。'},
+     {q:'彼女は知っている___です。',blank:'はず',opts:['かも','はず','らしい','そう'],answer:'はず',tip:'「〜はずがない」表示"不可能……"。'}
+   ]},
+  // ===== 6. 说明与强调 =====
+  {id:'n4_g19',title:'〜んです／のです',meaning:'解释说明／强调',difficulty:2,
+   structure:'普通体 + んです（口语）／のです（书面）',
+   examples:[{jp:'どうして遅れたんですか。',zh:'为什么迟到了？（请解释）'},{jp:'頭が痛いんです。',zh:'（我）头疼（解释原因）。'}],
+   questions:[
+     {q:'どうして来なかった___ですか。',blank:'ん',opts:['ん','の','こと','もの'],answer:'ん',tip:'「〜んです」用于请求或给出解释说明，语气更自然亲切。'},
+     {q:'実は、お金がない___です。',blank:'ん',opts:['ん','が','の','こと'],answer:'ん',tip:'「んです」相当于「のです」，是口语形式。'}
+   ]},
+  // ===== 7. 接续 =====
+  {id:'n4_g20',title:'〜し〜し（并列理由）',meaning:'而且〜，又〜（并列理由）',difficulty:2,
+   structure:'普通体 + し、普通体 + し',
+   examples:[{jp:'この店は安いし、おいしいし、よく行きます。',zh:'这家店既便宜又好吃，所以常去。'},{jp:'疲れたし、眠いし、もう寝ます。',zh:'又累又困，我去睡了。'}],
+   questions:[
+     {q:'この店は安い___、おいしいし、よく行きます。',blank:'し',opts:['し','が','ので','から'],answer:'し',tip:'「〜し〜し」并列列举多个原因或特征。'},
+     {q:'頭も痛い___、熱もある___、今日は休みます。',blank:'し',opts:['し','が','から','ので'],answer:'し',tip:'「〜し〜し、〜」表示综合多个原因做出结论。'}
+   ]},
+  {id:'n4_g21',title:'〜ば〜ほど',meaning:'越〜越〜',difficulty:2,
+   structure:'动词ば形 + 同动词辞书形 + ほど',
+   examples:[{jp:'勉強すればするほど上手になります。',zh:'越学越好。'},{jp:'考えれば考えるほど難しいです。',zh:'越想越难。'}],
+   questions:[
+     {q:'練習すれば___ほど上手になります。',blank:'するほど',opts:['するほど','したほど','するなら','すれば'],answer:'するほど',tip:'「〜ば〜ほど」表示程度的递进，前后用同一动词。'},
+     {q:'読めば読む___面白くなります。',blank:'ほど',opts:['ほど','まで','から','より'],answer:'ほど',tip:'「〜ほど」在这里表示程度的递进。'}
+   ]},
+  {id:'n4_g22',title:'〜のに（逆接）',meaning:'明明〜却〜（含不满）',difficulty:3,
+   structure:'普通体 + のに',
+   examples:[{jp:'一生懸命勉強したのに、試験に落ちました。',zh:'明明拼命学习了，却没考过。'},{jp:'晴れているのに、寒いです。',zh:'明明是晴天，却很冷。'}],
+   questions:[
+     {q:'頑張った___、うまくいきませんでした。',blank:'のに',opts:['のに','ので','から','が'],answer:'のに',tip:'「〜のに」表示与期待相反的结果，含有不满、遗憾、惊讶的语气。'},
+     {q:'もう9時な___、まだ来ていません。',blank:'のに',opts:['のに','ので','が','けど'],answer:'のに',tip:'な形容词/名词后接「なのに」。'}
+   ]},
+  {id:'n4_g23',title:'〜くせに',meaning:'明明〜却〜（含责备）',difficulty:3,
+   structure:'普通体（な形词干+な/名词+の）+ くせに',
+   examples:[{jp:'知っているくせに、教えてくれません。',zh:'明明知道，却不告诉我。'},{jp:'子供のくせに、生意気です。',zh:'明明是小孩子，却很傲慢。'}],
+   questions:[
+     {q:'知っている___、何も言いません。',blank:'くせに',opts:['くせに','のに','から','ので'],answer:'くせに',tip:'「くせに」与「のに」类似，但含有更强的责备、轻视语气。'},
+     {q:'できない___、できると言います。',blank:'くせに',opts:['くせに','のに','から','が'],answer:'くせに',tip:'「くせに」多用于批评他人，语气较强。'}
+   ]},
+  // ===== 8. 条件 =====
+  {id:'n4_g24',title:'〜ば（假定条件）',meaning:'如果〜的话（ば条件句）',difficulty:3,
+   structure:'动词ば形；い形（去い）+ ければ；な形 + であれば',
+   examples:[{jp:'もっと練習すれば、上手になります。',zh:'如果多练习，就会变好。'},{jp:'安ければ、買います。',zh:'如果便宜就买。'}],
+   questions:[
+     {q:'もっと練習す___、上手になります。',blank:'れば',opts:['れば','たら','なら','と'],answer:'れば',tip:'「〜ば」表示假设条件，主要用于一般性条件，不用于过去。'},
+     {q:'安___、買います。',blank:'ければ',opts:['ければ','くなれば','かったら','くて'],answer:'ければ',tip:'い形容词的ば形：去い + ければ。'}
+   ]},
+  {id:'n4_g25',title:'〜なら（话题条件）',meaning:'要是〜的话（なら条件）',difficulty:3,
+   structure:'名词／普通体 + なら',
+   examples:[{jp:'東京なら電車が便利です。',zh:'要是东京的话，电车很方便。'},{jp:'行くなら早く言ってください。',zh:'如果要去的话，请早点说。'}],
+   questions:[
+     {q:'東京___電車が便利です。',blank:'なら',opts:['なら','たら','ば','と'],answer:'なら',tip:'「なら」根据对方所说的情况提出建议或意见。'},
+     {q:'行く___早く言ってください。',blank:'なら',opts:['なら','たら','ば','と'],answer:'なら',tip:'「なら」常用在根据前提（对方说的内容）给出建议时。'}
+   ]},
+  {id:'n4_g26',title:'〜と（自然条件）',meaning:'一〜就〜（自然规律）',difficulty:3,
+   structure:'动词辞书形／ない形 + と',
+   examples:[{jp:'春になると、桜が咲きます。',zh:'一到春天，樱花就开了。'},{jp:'このボタンを押すと、ドアが開きます。',zh:'一按这个按钮，门就开了。'}],
+   questions:[
+     {q:'春になる___、桜が咲きます。',blank:'と',opts:['と','たら','ば','なら'],answer:'と',tip:'「〜と」表示自然的、必然的结果，后句不能用意志表达。'},
+     {q:'右に曲がる___、駅が見えます。',blank:'と',opts:['と','なら','たら','ば'],answer:'と',tip:'「〜と」多用于路线说明、机器操作等固定结果的场合。'}
+   ]},
+  // ===== 9. 格助词进阶 =====
+  {id:'n4_g27',title:'〜によって',meaning:'根据〜／因〜而异',difficulty:3,
+   structure:'名词 + によって',
+   examples:[{jp:'人によって意見が違います。',zh:'因人而异，意见不同。'},{jp:'この建物は有名な建築家によって設計されました。',zh:'这栋建筑由著名建筑师设计。'}],
+   questions:[
+     {q:'人___意見が違います。',blank:'によって',opts:['によって','について','にとって','において'],answer:'によって',tip:'「〜によって」有多种用法：手段、原因、因……而异、被动句中的动作主体。'},
+     {q:'季節___食べ物が変わります。',blank:'によって',opts:['にとって','について','によって','において'],answer:'によって',tip:'「〜によって異なる」表示因……而不同。'}
+   ]},
+  {id:'n4_g28',title:'〜について',meaning:'关于〜',difficulty:2,
+   structure:'名词 + について',
+   examples:[{jp:'日本の文化について勉強します。',zh:'学习关于日本文化的知识。'},{jp:'この問題についてどう思いますか。',zh:'关于这个问题，你怎么看？'}],
+   questions:[
+     {q:'日本の文化___話します。',blank:'について',opts:['について','によって','にとって','において'],answer:'について',tip:'「〜について」表示"关于……"，用于话题的引入。'},
+     {q:'この件___相談したいです。',blank:'について',opts:['として','について','によって','にとって'],answer:'について',tip:'「〜についての + 名词」表示"关于……的……"。'}
+   ]},
+  {id:'n4_g29',title:'〜にとって',meaning:'对〜来说',difficulty:2,
+   structure:'名词 + にとって',
+   examples:[{jp:'私にとって日本語は難しいです。',zh:'对我来说，日语很难。'},{jp:'子供にとって遊びは大切です。',zh:'对孩子来说，玩耍很重要。'}],
+   questions:[
+     {q:'私___日本語は難しいです。',blank:'にとって',opts:['として','にとって','によって','について'],answer:'にとって',tip:'「〜にとって」表示"对……来说"，从某人的立场来看。'},
+     {q:'学生___この本は役に立ちます。',blank:'にとって',opts:['にとって','として','について','によって'],answer:'にとって',tip:'「〜にとっての + 名词」可作定语。'}
+   ]},
+  {id:'n4_g30',title:'〜として',meaning:'作为〜（身份・立场）',difficulty:2,
+   structure:'名词 + として',
+   examples:[{jp:'教師として働いています。',zh:'作为教师在工作。'},{jp:'プレゼントとして渡しました。',zh:'作为礼物赠送了。'}],
+   questions:[
+     {q:'教師___働いています。',blank:'として',opts:['として','にとって','について','によって'],answer:'として',tip:'「〜として」表示以……身份、立场或资格做某事。'},
+     {q:'代表___発言します。',blank:'として',opts:['として','について','によって','にとって'],answer:'として',tip:'「〜として」常用于表示职位、身份、用途。'}
+   ]},
+  {id:'n4_g31',title:'〜において',meaning:'在〜（正式书面）',difficulty:3,
+   structure:'名词 + において',
+   examples:[{jp:'現代社会において、スマートフォンは必需品です。',zh:'在现代社会，智能手机是必需品。'},{jp:'この点において、意見が異なります。',zh:'在这一点上，意见不同。'}],
+   questions:[
+     {q:'現代社会___スマートフォンは必需品です。',blank:'において',opts:['において','について','にとって','によって'],answer:'において',tip:'「において」是「で」的正式书面用法，表示时间、场所或范围。'},
+     {q:'スポーツ___彼は優秀です。',blank:'において',opts:['において','について','にとって','として'],answer:'において',tip:'「〜においては」强调在某领域或范围内。'}
+   ]},
+  // ===== 10. 转述与命令 =====
+  {id:'n4_g32',title:'〜ように言う',meaning:'叫〜做（转述命令）',difficulty:3,
+   structure:'动词普通体 + ように 言う／頼む／伝える',
+   examples:[{jp:'先生は早く来るように言いました。',zh:'老师说让早点来。'},{jp:'医者は薬を飲むように言いました。',zh:'医生说要吃药。'}],
+   questions:[
+     {q:'先生は静かにする___言いました。',blank:'ように',opts:['ように','ために','まま','こと'],answer:'ように',tip:'「〜ように言う」用于转述命令或请求，不直接引用对方的话。'},
+     {q:'母は野菜を食べる___言います。',blank:'ように',opts:['ために','ように','ながら','ことを'],answer:'ように',tip:'「〜ように頼む」表示请求某人做某事。'}
+   ]},
+  // ===== 11. 许可与义务 =====
+  {id:'n4_g33',title:'〜なくてもいい',meaning:'不做〜也可以',difficulty:2,
+   structure:'动词ない形（去い）+ くてもいい',
+   examples:[{jp:'今日は来なくてもいいです。',zh:'今天不来也可以。'},{jp:'全部食べなくてもいいですよ。',zh:'不用全部吃完没关系。'}],
+   questions:[
+     {q:'今日は来___てもいいです。',blank:'なく',opts:['なく','では','ないで','ず'],answer:'なく',tip:'「〜なくてもいい」表示许可不做某事，相当于"不……也没关系"。'},
+     {q:'全部食べ___てもいいです。',blank:'なく',opts:['なく','では','ず','ないで'],answer:'なく',tip:'与「〜てもいい」（可以做）相对，「〜なくてもいい」表示不做也无妨。'}
+   ]},
+  {id:'n4_g34',title:'〜なければならない',meaning:'必须〜（义务普通体）',difficulty:3,
+   structure:'动词ない形（去い）+ なければならない',
+   examples:[{jp:'毎日練習しなければならない。',zh:'必须每天练习。'},{jp:'もっと努力しなければならないと思います。',zh:'我认为必须更加努力。'}],
+   questions:[
+     {q:'毎日練習し___ならない。',blank:'なければ',opts:['なければ','なくて','ないで','ずに'],answer:'なければ',tip:'「〜なければならない」是「〜なければなりません」的普通体。'},
+     {q:'もっと頑張ら___なりません。',blank:'なければ',opts:['なければ','なくて','ないで','ず'],answer:'なければ',tip:'日常对话中也可说「〜なきゃならない」。'}
+   ]},
+  // ===== 12. 被动与使役 =====
+  {id:'n4_g35',title:'〜れる／られる（被动）',meaning:'被〜（被动态）',difficulty:3,
+   structure:'五段动词ない形 + れる；一段动词ない形 + られる',
+   examples:[{jp:'先生に褒められました。',zh:'被老师表扬了。'},{jp:'雨に降られました。',zh:'被雨淋了。'}],
+   questions:[
+     {q:'先生に褒め___ました。',blank:'られ',opts:['られ','れ','させ','ない'],answer:'られ',tip:'一段动词被动形：去る + られる。「褒める→褒められる」。'},
+     {q:'犬に噛ま___ました。',blank:'れ',opts:['れ','られ','させ','ない'],answer:'れ',tip:'五段动词被动形：ない形词干 + れる。「噛む→噛まれる」。'}
+   ]},
+  {id:'n4_g36',title:'〜せる／させる（使役）',meaning:'让〜做（使役态）',difficulty:3,
+   structure:'五段动词ない形 + せる；一段动词ない形 + させる',
+   examples:[{jp:'子供に野菜を食べさせます。',zh:'让孩子吃蔬菜。'},{jp:'生徒を廊下に立たせました。',zh:'让学生站在走廊。'}],
+   questions:[
+     {q:'子供に野菜を食べ___ます。',blank:'させ',opts:['させ','れ','られ','ない'],answer:'させ',tip:'一段动词使役形：去る + させる。「食べる→食べさせる」。'},
+     {q:'生徒を廊下に立た___ました。',blank:'せ',opts:['せ','させ','られ','れ'],answer:'せ',tip:'五段动词使役形：ない形词干 + せる。「立つ→立たせる」。'}
+   ]},
+  // ===== 13. 名词化 =====
+  {id:'n4_g37',title:'〜こと（名词化）',meaning:'做〜这件事（名词化）',difficulty:2,
+   structure:'动词普通体 + こと',
+   examples:[{jp:'毎日運動することが大切です。',zh:'每天运动这件事很重要。'},{jp:'日本語を話すことができます。',zh:'能说日语。'}],
+   questions:[
+     {q:'毎日運動する___が大切です。',blank:'こと',opts:['こと','の','もの','ため'],answer:'こと',tip:'「〜こと」将动词名词化，与「の」类似，但「こと」更正式，多用于书面语。'},
+     {q:'英語を話す___が難しいです。',blank:'こと',opts:['こと','の','もの','ため'],answer:'こと',tip:'「こと」名词化后可接が、を等助词。'}
+   ]},
+  // ===== 14. 限定 =====
+  {id:'n4_g38',title:'〜だけ',meaning:'只〜（限定肯定）',difficulty:1,
+   structure:'名词 + だけ；动词普通体 + だけ',
+   examples:[{jp:'一つだけ食べます。',zh:'只吃一个。'},{jp:'見るだけです、買いません。',zh:'只是看看，不买。'}],
+   questions:[
+     {q:'一つ___食べます。',blank:'だけ',opts:['だけ','しか','ばかり','ほど'],answer:'だけ',tip:'「だけ」表示限定，接肯定句；「しか〜ない」也表示限定，但接否定句。'},
+     {q:'見る___です、買いません。',blank:'だけ',opts:['だけ','しか','ばかり','ほど'],answer:'だけ',tip:'「だけ」可以接名词、数量词和动词普通体。'}
+   ]},
+  {id:'n4_g39',title:'〜しか〜ない',meaning:'只有〜（限定否定）',difficulty:2,
+   structure:'名词 + しか + 否定',
+   examples:[{jp:'百円しかありません。',zh:'只有100日元。'},{jp:'彼しか知りません。',zh:'只有他知道。'}],
+   questions:[
+     {q:'百円___ありません。',blank:'しか',opts:['しか','だけ','ばかり','ほど'],answer:'しか',tip:'「〜しか〜ない」表示只有……，后面必须接否定形式。'},
+     {q:'彼___知りません。',blank:'しか',opts:['だけ','しか','ばかり','ほど'],answer:'しか',tip:'「しか」表示限定，语气比「だけ」更强调"只有这么少"。'}
+   ]},
+  {id:'n4_g40',title:'〜ばかり',meaning:'光是〜／刚刚〜',difficulty:2,
+   structure:'名词 + ばかり；动词た形 + ばかり',
+   examples:[{jp:'彼はゲームばかりしています。',zh:'他光顾着打游戏。'},{jp:'今、食べたばかりです。',zh:'我刚刚吃过。'}],
+   questions:[
+     {q:'彼はゲーム___しています。',blank:'ばかり',opts:['ばかり','だけ','しか','ほど'],answer:'ばかり',tip:'「〜ばかり」表示几乎只做某件事，含有过多的语气。'},
+     {q:'今、食べた___です。',blank:'ばかり',opts:['ばかり','だけ','しか','ほど'],answer:'ばかり',tip:'「動詞た形 + ばかり」表示刚刚做完某事。'}
+   ]},
+  // ===== 15. 敬语 =====
+  {id:'n4_g41',title:'お〜になる／お〜する',meaning:'尊敬语・谦让语',difficulty:3,
+   structure:'お + ます形（去ます）+ になる（尊敬）；お + ます形（去ます）+ する（谦让）',
+   examples:[{jp:'先生はもうお帰りになりました。',zh:'老师已经回去了（尊敬）。'},{jp:'私がお持ちします。',zh:'我来拿（谦让）。'}],
+   questions:[
+     {q:'先生はもうお帰り___ました。',blank:'になり',opts:['になり','され','られ','なさい'],answer:'になり',tip:'「お〜になる」是尊敬语，用于提高对方的动作。'},
+     {q:'私がお持ち___ます。',blank:'し',opts:['し','なり','され','られ'],answer:'し',tip:'「お〜する」是谦让语，用于贬低自己的动作以表达敬意。'}
+   ]},
+  {id:'n4_g42',title:'〜ていただく',meaning:'承蒙〜（敬语授受）',difficulty:3,
+   structure:'动词て形 + いただく（谦让语）／くださる（尊敬语）',
+   examples:[{jp:'先生に説明していただきました。',zh:'承蒙老师为我说明了。'},{jp:'先生が説明してくださいました。',zh:'老师为我说明了（尊敬）。'}],
+   questions:[
+     {q:'先生に説明して___きました。',blank:'いただ',opts:['いただ','くださ','もらい','あげ'],answer:'いただ',tip:'「〜ていただく」是「〜てもらう」的谦让语，主语是说话人。'},
+     {q:'先生が教えて___いました。',blank:'くださ',opts:['いただ','くださ','もらい','あげ'],answer:'くださ',tip:'「〜てくださる」是「〜てくれる」的尊敬语，主语是对方（长辈）。'}
+   ]},
+  // ===== 16. 状态与补充 =====
+  {id:'n4_g43',title:'〜まま',meaning:'保持〜状态不变',difficulty:3,
+   structure:'动词た形／ない形 + まま；名词の + まま',
+   examples:[{jp:'靴を履いたまま入りました。',zh:'穿着鞋子进来了。'},{jp:'ドアを開けたまま寝てしまいました。',zh:'开着门睡着了。'}],
+   questions:[
+     {q:'靴を履いた___入りました。',blank:'まま',opts:['まま','ながら','てから','ても'],answer:'まま',tip:'「〜たまま」表示某动作的结果状态保持不变地继续做后项动作。'},
+     {q:'電気をつけた___寝てしまいました。',blank:'まま',opts:['まま','ながら','てから','ても'],answer:'まま',tip:'「まま」强调状态的持续，与「ながら」相比更侧重结果状态。'}
+   ]},
+  {id:'n4_g44',title:'〜という',meaning:'叫做〜的（引用・说明）',difficulty:2,
+   structure:'「名词／普通体」という 名词',
+   examples:[{jp:'「さくら」という花を知っていますか。',zh:'你知道叫"樱花"的花吗？'},{jp:'彼が来られないということを聞きました。',zh:'我听说了他不能来这件事。'}],
+   questions:[
+     {q:'「さくら」___花を知っていますか。',blank:'という',opts:['という','とは','では','には'],answer:'という',tip:'「〜という + 名词」用于说明名称或内容，引出具体信息。'},
+     {q:'彼が辞める___話を聞きました。',blank:'という',opts:['という','とは','では','には'],answer:'という',tip:'「〜ということ」将一个句子名词化，表示"……这件事"。'}
+   ]},
+  {id:'n4_g45',title:'〜さえ〜ば',meaning:'只要〜就行',difficulty:3,
+   structure:'名词 + さえ + ば；动词ます形（去ます）+ さえ + すれば',
+   examples:[{jp:'お金さえあれば、買えます。',zh:'只要有钱就能买。'},{jp:'練習さえすれば、うまくなります。',zh:'只要练习就会进步。'}],
+   questions:[
+     {q:'お金___あれば、買えます。',blank:'さえ',opts:['さえ','しか','だけ','ばかり'],answer:'さえ',tip:'「〜さえ〜ば」表示"只要满足这一条件，就能实现"。'},
+     {q:'あなた___いれば、ほかは何もいりません。',blank:'さえ',opts:['さえ','しか','だけ','こそ'],answer:'さえ',tip:'「さえ」有时也表示"连……都……"（极端举例）。'}
+   ]},
+  {id:'n4_g46',title:'〜ものだ',meaning:'原本应该〜／自然规律',difficulty:3,
+   structure:'普通体 + ものだ',
+   examples:[{jp:'年を取ると、体力が落ちるものです。',zh:'上了年纪，体力自然就下降了。'},{jp:'失敗しても、諦めないものです。',zh:'即使失败，也不该放弃（道理上）。'}],
+   questions:[
+     {q:'年を取ると、疲れやすくなる___です。',blank:'もの',opts:['もの','こと','はず','ため'],answer:'もの',tip:'「〜ものだ」表示某种道理、规律或一般性真理。'},
+     {q:'人は誰でも間違える___です。',blank:'もの',opts:['もの','こと','はず','ため'],answer:'もの',tip:'「〜ものだ」含有感慨或一般规律的语气。'}
+   ]},
+  {id:'n4_g47',title:'〜くする／にする',meaning:'使〜变得〜（使动）',difficulty:2,
+   structure:'い形（去い）+ くする；な形／名词 + にする',
+   examples:[{jp:'部屋をきれいにします。',zh:'把房间弄干净。'},{jp:'声を大きくしてください。',zh:'请把声音放大。'}],
+   questions:[
+     {q:'部屋をきれい___します。',blank:'に',opts:['に','く','が','で'],answer:'に',tip:'な形容词表示使某物变成某种状态：+にする。'},
+     {q:'音楽の音を小さ___してください。',blank:'く',opts:['く','に','が','で'],answer:'く',tip:'い形容词使某物变化：去い + くする。'}
+   ]},
+  {id:'n4_g48',title:'〜てほしい',meaning:'希望〜做〜',difficulty:2,
+   structure:'人 に 动词て形 + ほしい',
+   examples:[{jp:'もっと静かにしてほしいです。',zh:'希望（你）更安静一点。'},{jp:'早く来てほしいです。',zh:'希望（你）快点来。'}],
+   questions:[
+     {q:'もっと静かにし___です。',blank:'てほしい',opts:['てほしい','てもらいたい','ていただきたい','てほしくない'],answer:'てほしい',tip:'「〜てほしい」表示说话人希望对方为自己做某事。'},
+     {q:'早く来___です。',blank:'てほしい',opts:['てほしい','てみたい','てしまいたい','ておきたい'],answer:'てほしい',tip:'「〜てほしくない」表示不希望对方做某事。'}
+   ]},
+  {id:'n4_g49',title:'〜ても〜なくても',meaning:'不管〜还是〜',difficulty:3,
+   structure:'动词て形 + も、動词ない形 + くても',
+   examples:[{jp:'雨が降っても降らなくても、行きます。',zh:'不管下不下雨，我都去。'},{jp:'好きでも嫌いでも、食べなければなりません。',zh:'不管喜不喜欢，都得吃。'}],
+   questions:[
+     {q:'行っ___行かなくても、連絡してください。',blank:'ても',opts:['ても','てから','ながら','てください'],answer:'ても',tip:'「〜ても〜なくても」表示无论哪种情况，结果相同。'},
+     {q:'好き___嫌いでも、やらなければなりません。',blank:'でも',opts:['でも','なくて','から','ので'],answer:'でも',tip:'な形容词/名词 + でも 表示让步。'}
+   ]},
+  {id:'n4_g50',title:'〜ようとする',meaning:'试图〜／正要〜',difficulty:3,
+   structure:'动词意志形（よう）+ とする',
+   examples:[{jp:'外に出ようとしたとき、雨が降ってきました。',zh:'正要出门时，下起雨来了。'},{jp:'頑張ろうとしても、なかなかできません。',zh:'即使试图努力，也很难做到。'}],
+   questions:[
+     {q:'外に出よう___した時、電話がなりました。',blank:'と',opts:['と','に','が','を'],answer:'と',tip:'「〜ようとする」表示正要做某事或试图做某事。'},
+     {q:'立ち上がろう___したが、足が痛くて無理でした。',blank:'と',opts:['と','に','が','で'],answer:'と',tip:'「〜ようとしたが〜」表示试图做某事但未能成功。'}
+   ]},
+];
+
+// 所有语法题目（用于自由练习）
+function getAllGramQuestions(scope){
+  let pool = [];
+  if(scope==='N5'||scope==='ALL') GRAMMAR_N5.forEach(g=>g.questions.forEach(q=>pool.push({...q,gramTitle:g.title,level:'N5'})));
+  if(scope==='N4'||scope==='ALL') GRAMMAR_N4.forEach(g=>g.questions.forEach(q=>pool.push({...q,gramTitle:g.title,level:'N4'})));
+  return pool;
+}
+
+// =============================================
+// 语法模块 - 状态
+// =============================================
+let gramCurrentTab = 'N5';
+
+function loadGramDone(){
+  const raw = localStorage.getItem(storKey('gram_done'));
+  return raw ? JSON.parse(raw) : {};
+}
+function saveGramDone(d){ localStorage.setItem(storKey('gram_done'), JSON.stringify(d)); }
+
+// =============================================
+// 语法模块 - 列表渲染
+// =============================================
+function switchGramTab(lv){
+  gramCurrentTab = lv;
+  document.getElementById('gtab-n5').classList.toggle('active', lv==='N5');
+  document.getElementById('gtab-n4').classList.toggle('active', lv==='N4');
+  renderGramList(true);  // 切换tab时重置分页
+}
+
+const GRAM_PAGE_SIZE = 10;
+let gramCurrentPage = 0;
+
+function renderGramList(resetPage){
+  if(resetPage) gramCurrentPage = 0;
+  const list = gramCurrentTab==='N5' ? GRAMMAR_N5 : GRAMMAR_N4;
+  const done = loadGramDone();
+  const doneCount = list.filter(g=>done[g.id]).length;
+
+  // 进度条
+  const pct = list.length ? Math.round(doneCount/list.length*100) : 0;
+  document.getElementById('gram-prog-fill').style.width = pct+'%';
+  document.getElementById('gram-prog-txt').textContent = doneCount+' / '+list.length+' 已掌握';
+
+  const totalPages = Math.ceil(list.length / GRAM_PAGE_SIZE);
+  const pageList = list.slice(gramCurrentPage*GRAM_PAGE_SIZE, (gramCurrentPage+1)*GRAM_PAGE_SIZE);
+  const globalOffset = gramCurrentPage * GRAM_PAGE_SIZE;
+
+  const el = document.getElementById('gram-list');
+  const itemsHtml = pageList.map((g,i)=>{
+    const isDone = !!done[g.id];
+    const stars = '★'.repeat(g.difficulty)+'☆'.repeat(3-g.difficulty);
+    return `<div class="gram-item ${isDone?'done':'undone'}" onclick="openGramDetail('${g.id}','${gramCurrentTab}')">
+      <div class="gram-item-icon">${isDone?'✅':'📌'}</div>
+      <div class="gram-item-body">
+        <div class="gram-item-title">${globalOffset+i+1}. ${g.title}</div>
+        <div class="gram-item-meaning">${g.meaning} &nbsp;<span style="color:var(--warn);font-size:0.72rem">${stars}</span></div>
+      </div>
+      <span class="gram-item-badge ${isDone?'done':'undone'}">${isDone?'✅ 已掌握':'未学习'}</span>
+    </div>`;
+  }).join('');
+
+  // 分页控件
+  const pageHtml = totalPages > 1 ? `
+    <div class="gram-page-bar">
+      <button class="gram-page-btn" onclick="gramGoPage(${gramCurrentPage-1})" ${gramCurrentPage===0?'disabled':''}>‹ 上页</button>
+      <span class="gram-page-info">第 ${gramCurrentPage+1} / ${totalPages} 页 &nbsp;共 ${list.length} 条</span>
+      <button class="gram-page-btn" onclick="gramGoPage(${gramCurrentPage+1})" ${gramCurrentPage===totalPages-1?'disabled':''}>下页 ›</button>
+    </div>` : `<div style="text-align:center;font-size:0.78rem;color:var(--text-3);padding:6px 0">共 ${list.length} 条语法</div>`;
+
+  el.innerHTML = itemsHtml + pageHtml;
+}
+
+function gramGoPage(p){
+  const list = gramCurrentTab==='N5' ? GRAMMAR_N5 : GRAMMAR_N4;
+  const totalPages = Math.ceil(list.length / GRAM_PAGE_SIZE);
+  if(p < 0 || p >= totalPages) return;
+  gramCurrentPage = p;
+  renderGramList(false);
+  document.getElementById('page-grammar').scrollTop = 0;
+}
+
+// =============================================
+// 语法讲解页
+// =============================================
+let gdGramId = null;
+let gdGramLevel = 'N5';
+let gdQuizState = []; // [{answered,correct}]
+
+function openGramDetail(id, level){
+  gdGramId = id;
+  gdGramLevel = level;
+  const list = level==='N5' ? GRAMMAR_N5 : GRAMMAR_N4;
+  const g = list.find(x=>x.id===id);
+  const idx = list.indexOf(g);
+
+  document.getElementById('gd-level-label').textContent = level+' 语法';
+  document.getElementById('gd-index-label').textContent = '第 '+(idx+1)+' / '+list.length+' 条';
+  document.getElementById('gd-title').textContent = g.title;
+  document.getElementById('gd-meaning').textContent = g.meaning;
+  document.getElementById('gd-structure').innerHTML = '📐 '+g.structure;
+  document.getElementById('gd-examples').innerHTML = g.examples.map(e=>
+    `<div class="gram-example-item">
+      <div class="gram-example-jp">${e.jp}</div>
+      <div class="gram-example-zh">${e.zh}</div>
+    </div>`
+  ).join('');
+
+  // 初始化练习题状态
+  gdQuizState = g.questions.map(()=>({answered:false,correct:false}));
+  document.getElementById('gd-complete-tip').classList.add('hidden');
+  document.getElementById('gd-quiz-title').classList.remove('hidden');
+  renderGdQuiz(g);
+
+  goPage('page-gram-detail');
+}
+
+function renderGdQuiz(g){
+  const done = loadGramDone();
+  const isDone = done[g.id];
+  const area = document.getElementById('gd-quiz-area');
+  const labels = ['A','B','C','D'];
+
+  area.innerHTML = g.questions.map((q,qi)=>{
+    const state = gdQuizState[qi];
+    const optHtml = q.opts.map((o,oi)=>{
+      let cls = 'gram-opt';
+      let labelStyle = '';
+      if(state.answered){
+        cls += ' disabled';
+        if(o===q.answer){ cls+=' correct'; labelStyle='background:var(--accent2);color:#fff'; }
+        else if(o===q.opts[q.opts.indexOf(o)] && state.selectedOpt===o && o!==q.answer){ cls+=' wrong'; labelStyle='background:var(--danger);color:#fff'; }
+      }
+      return `<button class="${cls}" onclick="checkGdAnswer(${qi},'${o.replace(/'/g,"\\'")}')">
+        <span class="go-label" style="${labelStyle}">${labels[oi]}</span>${o}
+      </button>`;
+    }).join('');
+
+    const tipHtml = state.answered
+      ? `<div class="gram-explain-tip">💡 ${q.tip}</div>` : '';
+
+    return `<div class="gram-quiz-card" id="gd-q-${qi}">
+      <div class="gram-quiz-q">${q.q.replace('___','<span class="gram-quiz-blank">　　</span>')}</div>
+      <div class="gram-opts">${optHtml}</div>
+      ${tipHtml}
+    </div>`;
+  }).join('');
+
+  // 若已掌握，直接显示完成状态（不重复触发checkGdComplete）
+  if(isDone){
+    document.getElementById('gd-quiz-title').classList.add('hidden');
+    document.getElementById('gd-quiz-area').innerHTML = '';
+    document.getElementById('gd-complete-tip').classList.remove('hidden');
+  }
+}
+
+function checkGdAnswer(qi, chosen){
+  const list = gdGramLevel==='N5' ? GRAMMAR_N5 : GRAMMAR_N4;
+  const g = list.find(x=>x.id===gdGramId);
+  const q = g.questions[qi];
+  if(gdQuizState[qi].answered) return;
+
+  gdQuizState[qi].answered = true;
+  gdQuizState[qi].correct = chosen===q.answer;
+  gdQuizState[qi].selectedOpt = chosen;
+
+  // 更新全局统计
+  const stats = loadStats();
+  stats.total=(stats.total||0)+1;
+  if(chosen===q.answer){
+    stats.correct=(stats.correct||0)+1;
+    stats.score=(stats.score||0)+10;
+    stats.streak=(stats.streak||0)+1;
+    stats.maxStreak=Math.max(stats.maxStreak||0,stats.streak);
+  } else { stats.streak=0; }
+  const today=new Date().toISOString().slice(0,10);
+  stats.history=stats.history||[];
+  const te=stats.history.find(h=>h.date===today);
+  if(te){te.count=(te.count||0)+1;}else{stats.history.push({date:today,count:1});}
+  if(stats.history.length>7)stats.history=stats.history.slice(-7);
+  saveStats(stats); renderTopStats();
+
+  renderGdQuiz(g);
+
+  // 检查是否全部答对
+  if(gdQuizState.every(s=>s.answered && s.correct)){
+    setTimeout(()=>checkGdComplete(g), 400);
+  } else if(gdQuizState.every(s=>s.answered) && !gdQuizState.every(s=>s.correct)){
+    showToast('有题目答错，请重新挑战！');
+    setTimeout(()=>resetGdQuiz(g), 1200);
+  }
+}
+
+function resetGdQuiz(g){
+  gdQuizState = g.questions.map(()=>({answered:false,correct:false}));
+  renderGdQuiz(g);
+}
+
+function checkGdComplete(g){
+  // 防止重复调用
+  const done = loadGramDone();
+  if(done[g.id]) return;   // 已经完成过，跳过
+  done[g.id] = true;
+  saveGramDone(done);
+  document.getElementById('gd-quiz-title').classList.add('hidden');
+  document.getElementById('gd-quiz-area').innerHTML = '';
+  document.getElementById('gd-complete-tip').classList.remove('hidden');
+  showToast('🏆 语法点已掌握！');
+}
+
+// =============================================
+// 语法自由练习
+// =============================================
+let gfreeCount = 10;
+let gfreeScope = 'N5';
+let gfreeQueue = [];
+let gfreeIdx = 0;
+let gfreeCorrect = 0;
+let gfreeAnswered = false;
+
+function startGramFree(){
+  // 重置设置界面
+  gfreeCount=10; gfreeScope='N5';
+  document.querySelectorAll('.gfree-count-btn').forEach((b,i)=>b.classList.toggle('active',i===0));
+  ['n5','n4','all'].forEach(s=>{
+    const el = document.getElementById('gfree-scope-'+s);
+    if(el) el.classList.toggle('active', s==='n5');
+  });
+  document.getElementById('gfree-setup').classList.remove('hidden');
+  document.getElementById('gfree-quiz').classList.add('hidden');
+  document.getElementById('gfree-result').classList.add('hidden');
+  goPage('page-gram-free');
+  setNav('nav-grammar');
+}
+
+function selectGFreeCount(btn, n){
+  gfreeCount = n;
+  btn.closest('.gfree-count-row').querySelectorAll('.gfree-count-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function selectGFreeScope(btn, scope){
+  gfreeScope = scope;
+  ['n5','n4','all'].forEach(s=>{
+    const el = document.getElementById('gfree-scope-'+s);
+    if(el) el.classList.remove('active');
+  });
+  btn.classList.add('active');
+}
+
+function beginGFree(){
+  const pool = getAllGramQuestions(gfreeScope);
+  if(!pool.length){ showToast('该范围暂无题目'); return; }
+  // 随机打乱，取前 gfreeCount 道
+  gfreeQueue = [...pool].sort(()=>Math.random()-0.5).slice(0, gfreeCount);
+  gfreeIdx=0; gfreeCorrect=0; gfreeAnswered=false;
+
+  document.getElementById('gfree-setup').classList.add('hidden');
+  document.getElementById('gfree-result').classList.add('hidden');
+  document.getElementById('gfree-quiz').classList.remove('hidden');
+  document.getElementById('btn-gfree-next').classList.add('hidden');
+
+  renderGFreeQ();
+}
+
+function renderGFreeQ(){
+  if(gfreeIdx >= gfreeQueue.length){ showGFreeResult(); return; }
+  gfreeAnswered = false;
+  const q = gfreeQueue[gfreeIdx];
+  const pct = Math.round(gfreeIdx/gfreeQueue.length*100);
+
+  document.getElementById('gfree-progress-label').textContent =
+    '第 '+(gfreeIdx+1)+' 题 / 共 '+gfreeQueue.length+' 题';
+  document.getElementById('gfree-prog-fill').style.width = pct+'%';
+  document.getElementById('gfree-score-chip').innerHTML =
+    '✅ '+gfreeCorrect+' &nbsp;❌ '+(gfreeIdx-gfreeCorrect);
+  document.getElementById('gfree-feedback').classList.add('hidden');
+  document.getElementById('btn-gfree-next').classList.add('hidden');
+
+  const labels = ['A','B','C','D'];
+  const optHtml = q.opts.map((o,i)=>`
+    <button class="gram-opt" onclick="checkGFreeAnswer('${o.replace(/'/g,"\\'")}')">
+      <span class="go-label">${labels[i]}</span>${o}
+    </button>`).join('');
+
+  document.getElementById('gfree-question-wrap').innerHTML = `
+    <div class="gram-quiz-card">
+      <div style="font-size:0.75rem;color:var(--accent);margin-bottom:6px">${q.level} · ${q.gramTitle}</div>
+      <div class="gram-quiz-q">${q.q.replace('___','<span class="gram-quiz-blank">　　</span>')}</div>
+      <div class="gram-opts" id="gfree-opts">${optHtml}</div>
+      <div id="gfree-tip" class="hidden gram-explain-tip"></div>
+    </div>`;
+
+  // 动画
+  const wrap = document.getElementById('gfree-question-wrap');
+  wrap.classList.remove('fade-in'); void wrap.offsetWidth; wrap.classList.add('fade-in');
+}
+
+function checkGFreeAnswer(chosen){
+  if(gfreeAnswered) return;
+  gfreeAnswered = true;
+  const q = gfreeQueue[gfreeIdx];
+  const isCorrect = chosen===q.answer;
+  const labels = ['A','B','C','D'];
+
+  // 标记选项
+  document.querySelectorAll('#gfree-opts .gram-opt').forEach((btn,i)=>{
+    btn.classList.add('disabled');
+    const o = q.opts[i];
+    if(o===q.answer) btn.classList.add('correct');
+    else if(o===chosen && !isCorrect) btn.classList.add('wrong');
+  });
+
+  // 显示解析
+  const tip = document.getElementById('gfree-tip');
+  tip.textContent = '💡 '+q.tip;
+  tip.classList.remove('hidden');
+
+  // 反馈
+  const fb = document.getElementById('gfree-feedback');
+  fb.className = 'quiz-feedback '+(isCorrect?'correct':'wrong');
+  fb.textContent = isCorrect ? '✅ 正确！+10分' : '❌ 答错了，正确答案：'+q.answer;
+  fb.classList.remove('hidden');
+
+  if(isCorrect) gfreeCorrect++;
+
+  // 统计
+  const stats = loadStats();
+  stats.total=(stats.total||0)+1;
+  if(isCorrect){stats.correct=(stats.correct||0)+1;stats.score=(stats.score||0)+10;stats.streak=(stats.streak||0)+1;stats.maxStreak=Math.max(stats.maxStreak||0,stats.streak);}
+  else{stats.streak=0;}
+  const today=new Date().toISOString().slice(0,10);
+  stats.history=stats.history||[];
+  const te=stats.history.find(h=>h.date===today);
+  if(te){te.count=(te.count||0)+1;}else{stats.history.push({date:today,count:1});}
+  if(stats.history.length>7)stats.history=stats.history.slice(-7);
+  saveStats(stats); renderTopStats();
+
+  document.getElementById('gfree-score-chip').innerHTML =
+    '✅ '+gfreeCorrect+' &nbsp;❌ '+(gfreeIdx+1-gfreeCorrect);
+  document.getElementById('btn-gfree-next').classList.remove('hidden');
+}
+
+function nextGFreeQ(){
+  gfreeIdx++;
+  renderGFreeQ();
+}
+
+function showGFreeResult(){
+  document.getElementById('gfree-quiz').classList.add('hidden');
+  document.getElementById('gfree-result').classList.remove('hidden');
+  const pct = Math.round(gfreeCorrect/gfreeQueue.length*100);
+  const emoji = pct===100?'🏆':pct>=80?'🎉':pct>=60?'👍':'💪';
+  document.getElementById('gfree-result-emoji').textContent = emoji;
+  document.getElementById('gfree-result-text').innerHTML =
+    `答对 <b style="color:var(--accent2)">${gfreeCorrect}</b> / ${gfreeQueue.length} 题<br>`+
+    `正确率 <b style="color:var(--warn)">${pct}%</b><br>`+
+    `获得 <b style="color:var(--accent)">${gfreeCorrect*10}</b> 分`;
 }
 
 // =============================================
