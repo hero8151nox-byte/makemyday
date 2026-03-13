@@ -1191,8 +1191,9 @@ input{font-family:inherit;outline:none}
     <div class="quiz-header">
       <div class="section-title" style="margin:0" id="quiz-section-title">选择题练习</div>
       <div class="quiz-type-toggle">
-        <button class="toggle-btn active" id="qtbtn-jp" onclick="setQuizType('jp2zh')">日→中</button>
-        <button class="toggle-btn" id="qtbtn-zh" onclick="setQuizType('zh2jp')">中→日</button>
+        <button class="toggle-btn active" id="qcbtn-10" onclick="setQuizCount(10)">10题</button>
+        <button class="toggle-btn" id="qcbtn-20" onclick="setQuizCount(20)">20题</button>
+        <button class="toggle-btn" id="qcbtn-30" onclick="setQuizCount(30)">30题</button>
       </div>
     </div>
     <div class="quiz-progress" style="margin-bottom:14px">
@@ -1315,9 +1316,8 @@ input{font-family:inherit;outline:none}
         <div style="font-size:2.5rem" id="gfree-result-emoji">🎉</div>
         <div style="font-size:1.3rem;font-weight:700">练习完成！</div>
         <div id="gfree-result-text" style="color:var(--text-2);font-size:0.9rem;line-height:1.7"></div>
-        <div style="display:flex;gap:10px;width:100%;margin-top:8px">
-          <button class="btn-prev" style="flex:1;padding:12px;border-radius:8px" onclick="goPage('page-grammar')">← 返回</button>
-          <button class="btn-next" style="flex:1;padding:12px;border-radius:8px" onclick="beginGFree()">再练一次</button>
+        <div style="width:100%;margin-top:8px">
+          <button class="btn-prev" style="width:100%;padding:12px;border-radius:8px" onclick="goPage('page-grammar')">← 返回</button>
         </div>
       </div>
     </div>
@@ -2331,7 +2331,7 @@ const VOCAB_N4 = ALL_N4;
 let currentUser = null;    // 当前用户名
 let currentLevel = 'N5';   // 当前等级
 let currentVocab = [];     // 当前词汇列表
-let quizType = 'jp2zh';    // 题型
+let quizCount = 10;    // 题数
 let quizQueue = [];        // 题目队列
 let quizIdx = 0;           // 当前题目索引
 let quizAnswered = false;  // 是否已答题
@@ -2352,7 +2352,18 @@ function saveStats(s){ localStorage.setItem(storKey('stats'), JSON.stringify(s))
 
 function loadWrong(){
   const raw = localStorage.getItem(storKey('wrong'));
-  return raw ? JSON.parse(raw) : {};
+  if(!raw) return {};
+  const data = JSON.parse(raw);
+  // 自动清理旧格式（value是数字而非对象）
+  let cleaned = false;
+  Object.keys(data).forEach(k=>{
+    if(typeof data[k] !== 'object' || !data[k].word){
+      delete data[k];
+      cleaned = true;
+    }
+  });
+  if(cleaned) localStorage.setItem(storKey('wrong'), JSON.stringify(data));
+  return data;
 }
 function saveWrong(w){ localStorage.setItem(storKey('wrong'), JSON.stringify(w)); }
 
@@ -2718,9 +2729,15 @@ function submitTestAnswer(){
     testCorrect++;
   } else {
     testWrongWords.push(w);
-    // 加入全局错题本
+    // 加入全局错题本（打字测试固定以 jp2zh 形式记录）
     const wrong = loadWrong();
-    wrong[w.word] = (wrong[w.word]||0)+1;
+    const wkey = w.word + '|jp2zh';
+    if(!wrong[wkey]){
+      wrong[wkey] = { word:w.word, kana:w.kana, meaning:w.meaning,
+                      type:w.type, example:w.example,
+                      quizType:'jp2zh', count:0 };
+    }
+    wrong[wkey].count = (wrong[wkey].count||0)+1;
     saveWrong(wrong);
     renderWrongBadge();
   }
@@ -2804,30 +2821,36 @@ function retestWrongOnly(){
 // =============================================
 // 十一、选择题
 // =============================================
+let wrongPracticeMode = false;
+
 function startQuiz(){
   quizIdx = 0;
   quizAnswered = false;
-  quizQueue = buildQuizQueue(20);
+  wrongPracticeMode = false;
+  quizQueue = buildQuizQueue(quizCount);
   goPage('page-quiz');
   setNav('nav-quiz');
   renderQuizQuestion();
 }
 
 function buildQuizQueue(n){
-  // 从当前词汇随机选题
-  const pool = [...currentVocab];
+  // 从当前词汇随机选题，每题随机分配日→中或中→日方向
+  const pool = [...currentVocab].sort(()=>Math.random()-0.5);
   const selected = [];
   for(let i=0;i<n;i++){
-    const ri = Math.floor(Math.random()*pool.length);
-    selected.push(pool[ri]);
+    const w = pool[i % pool.length];
+    const dir = Math.random() < 0.5 ? 'jp2zh' : 'zh2jp';
+    selected.push({...w, quizType: dir});
   }
   return selected;
 }
 
-function setQuizType(t){
-  quizType = t;
-  document.getElementById('qtbtn-jp').classList.toggle('active', t==='jp2zh');
-  document.getElementById('qtbtn-zh').classList.toggle('active', t==='zh2jp');
+function setQuizCount(n){
+  quizCount = n;
+  [10,20,30].forEach(v=>{
+    const btn = document.getElementById('qcbtn-'+v);
+    if(btn) btn.classList.toggle('active', v===n);
+  });
   startQuiz();
 }
 
@@ -2845,13 +2868,16 @@ function renderQuizQuestion(){
   document.getElementById('quiz-prog-fill').style.width = pct+'%';
   document.getElementById('quiz-prog-text').textContent = quizIdx+'/'+quizQueue.length;
 
-  // 生成四个选项
-  const opts = genOptions(q, quizType);
+  // 每题自带方向（普通模式随机，错题模式按记录方向）
+  const activeType = q.quizType || 'jp2zh';
 
-  if(quizType==='jp2zh'){
+  // 生成四个选项
+  const opts = genOptions(q, activeType);
+
+  if(activeType==='jp2zh'){
     document.getElementById('quiz-q-label').textContent = '请选择正确的中文意思';
-    document.getElementById('quiz-q-main').textContent = q.kana;   // 只显示假名
-    document.getElementById('quiz-q-sub').textContent = '';    // 不显示汉字
+    document.getElementById('quiz-q-main').textContent = q.kana;
+    document.getElementById('quiz-q-sub').textContent = '';
   } else {
     document.getElementById('quiz-q-label').textContent = '请选择对应的读音（ひらがな）';
     document.getElementById('quiz-q-main').textContent = q.meaning;
@@ -2864,19 +2890,22 @@ function renderQuizQuestion(){
   opts.forEach((opt,i)=>{
     const btn = document.createElement('button');
     btn.className = 'quiz-option';
-    const displayText = quizType==='jp2zh' ? opt.meaning :
-      opt.kana;   // 中→日 只显示假名，不显示汉字
+    const displayText = activeType==='jp2zh'
+      ? (opt.meaning || '？')
+      : (opt.kana || opt.word || '？');
     btn.innerHTML = `<span class="opt-label">${labels[i]}</span><span>${displayText}</span>`;
     btn.onclick = ()=>checkAnswer(opt, q, btn, optDiv);
     optDiv.appendChild(btn);
   });
 
-  document.getElementById('quiz-section-title').textContent = currentLevel+' 选择题 ('+quizType+')';
+  document.getElementById('quiz-section-title').textContent = wrongPracticeMode ? '错题练习' : currentLevel+' 选择题';
 }
 
 function genOptions(correct, type){
-  // 从词汇中随机取3个干扰项
-  const pool = currentVocab.filter(w=>w.word!==correct.word);
+  // 错题模式从全库取干扰项，普通模式从当前词汇取；过滤掉缺字段的词条
+  const allVocab = [...VOCAB_N5, ...VOCAB_N4];
+  const sourcePool = wrongPracticeMode ? allVocab : currentVocab;
+  const pool = sourcePool.filter(w => w.word !== correct.word && w.kana && w.meaning);
   const distractors = [];
   const used = new Set();
   while(distractors.length<3){
@@ -2918,20 +2947,38 @@ function checkAnswer(chosen, correct, btn, optDiv){
     stats.streak = (stats.streak||0)+1;
     stats.maxStreak = Math.max(stats.maxStreak||0, stats.streak);
     showFeedback(true, '✅ 回答正确！+10分'+(stats.streak>1?' 🔥连击×'+stats.streak:''));
+    // 错题练习模式：答对后从错题本删除
+    if(wrongPracticeMode){
+      const wrong = loadWrong();
+      const activeType = wrong[correct.word+'|jp2zh'] ? 'jp2zh' : 'zh2jp';
+      const wkey = correct.word + '|' + (quizQueue[quizIdx]?.quizType || activeType);
+      delete wrong[wkey];
+      saveWrong(wrong);
+      renderWrongBadge();
+    }
   } else {
     btn.classList.add('wrong');
     // 高亮正确答案
     Array.from(optDiv.querySelectorAll('.quiz-option')).forEach(b=>{
       // 找正确选项
       const txt = b.querySelector('span:last-child').textContent || b.querySelector('span:last-child').innerHTML;
-      const correctKey = quizType==='jp2zh' ? correct.meaning : correct.word;
+      const _at = quizQueue[quizIdx]?.quizType||'jp2zh';
+      const correctKey = _at==='jp2zh' ? correct.meaning : correct.kana;
       if(txt.includes(correctKey)) b.classList.add('correct');
     });
     stats.streak = 0;
-    showFeedback(false, '❌ 答错了！正确答案：'+(quizType==='jp2zh'?correct.meaning:correct.word+' '+correct.kana));
-    // 加入错题本
+    const _ft = quizQueue[quizIdx]?.quizType||'jp2zh';
+    showFeedback(false, '❌ 答错了！正确答案：'+(_ft==='jp2zh'?correct.meaning:correct.kana));
+    // 加入错题本（存题目+类型，答对后才删）
     const wrong = loadWrong();
-    wrong[correct.word] = (wrong[correct.word]||0)+1;
+    const _dir = quizQueue[quizIdx]?.quizType || 'jp2zh';
+    const wkey = correct.word + '|' + _dir;
+    if(!wrong[wkey]){
+      wrong[wkey] = { word:correct.word, kana:correct.kana, meaning:correct.meaning,
+                      type:correct.type, example:correct.example,
+                      quizType:_dir, count:0 };
+    }
+    wrong[wkey].count = (wrong[wkey].count||0)+1;
     saveWrong(wrong);
     renderWrongBadge();
   }
@@ -2988,20 +3035,30 @@ function renderWrong(){
     el.innerHTML = `<div class="wrong-empty"><div class="icon">✨</div><div>暂无错题，继续加油！</div></div>`;
     return;
   }
-  // 查找对应词条
-  const allVocab = [...VOCAB_N5,...VOCAB_N4];
-  let html = `<button class="btn-practice-wrong" onclick="practiceWrong()">🎯 开始错题练习（${keys.length}词）</button>`;
+  let html = `<button class="btn-practice-wrong" onclick="practiceWrong()">🎯 开始错题练习（${keys.length}题）</button>`;
   html += `<div class="wrong-list">`;
   keys.forEach(key=>{
-    const w = allVocab.find(v=>v.word===key);
-    if(!w) return;
-    html += `<div class="wrong-item" onclick="showWordModal('${key}')">
-      <div class="wrong-item-jp">${w.word}</div>
-      <div class="wrong-item-info">
-        <div class="wrong-item-kana">${w.kana}</div>
-        <div class="wrong-item-meaning">${w.meaning}</div>
+    const item = wrong[key];
+    if(!item || !item.word) return;
+    let questionText, answerText, dirLabel;
+    if(item.isGram){
+      // 语法题
+      dirLabel = '语法';
+      questionText = item.kana;   // 题目句子
+      answerText = item.answer;   // 正确填入词
+    } else {
+      // 单词题
+      dirLabel = item.quizType==='jp2zh' ? '日→中' : '中→日';
+      questionText = item.quizType==='jp2zh' ? item.kana : item.meaning;
+      answerText   = item.quizType==='jp2zh' ? item.meaning : item.kana;
+    }
+    html += `<div class="wrong-item">
+      <div class="wrong-item-body">
+        <div class="wrong-dir-badge">${dirLabel}</div>
+        <div class="wrong-item-q">${questionText}</div>
+        <div class="wrong-item-a">答案：${answerText}</div>
       </div>
-      <span class="wrong-item-count">错${wrong[key]}次</span>
+      <span class="wrong-item-count">错${item.count}次</span>
     </div>`;
   });
   html += `</div>`;
@@ -3011,18 +3068,51 @@ function renderWrong(){
 
 function practiceWrong(){
   const wrong = loadWrong();
-  const allVocab = [...VOCAB_N5,...VOCAB_N4];
-  const wrongWords = Object.keys(wrong).map(k=>allVocab.find(v=>v.word===k)).filter(Boolean);
-  if(wrongWords.length===0){ showToast('错题本为空'); return; }
-  // 用错题替换当前词汇池，启动选择题
-  const saved = currentVocab;
-  currentVocab = wrongWords;
+  const keys = Object.keys(wrong);
+  if(keys.length===0){ showToast('错题本为空'); return; }
+
+  const allItems = keys.map(k=>wrong[k]).filter(Boolean);
+  if(allItems.length===0){ showToast('错题本为空'); return; }
+
+  // 分离语法题和单词题
+  const gramItems  = allItems.filter(i=>i.isGram);
+  const vocabItems = allItems.filter(i=>!i.isGram);
+
+  if(gramItems.length>0 && vocabItems.length===0){
+    // 全是语法题 → 语法自由练习模式
+    startWrongGramPractice(gramItems);
+  } else if(vocabItems.length>0 && gramItems.length===0){
+    // 全是单词题 → 选择题模式
+    startWrongVocabPractice(vocabItems);
+  } else {
+    // 混合 → 先问用户，暂时全部混合以单词模式出（语法题跳过）
+    startWrongVocabPractice(vocabItems);
+    showToast('单词错题练习中，语法错题请单独从语法自由练习入口复习');
+  }
+}
+
+function startWrongVocabPractice(vocabItems){
   quizIdx = 0;
-  quizQueue = buildQuizQueue(Math.min(20, wrongWords.length));
+  quizQueue = vocabItems.map(item=>({...item}));
+  wrongPracticeMode = true;
   goPage('page-quiz');
   setNav('nav-quiz');
   renderQuizQuestion();
-  currentVocab = saved;
+}
+
+function startWrongGramPractice(gramItems){
+  // 复用语法自由练习页面，但注入错题队列
+  gfreeQueue = gramItems.map(item=>({
+    q: item.kana, answer: item.answer, opts: item.opts, tip: item.tip,
+    gramTitle: item.word
+  }));
+  gfreeIdx = 0; gfreeCorrect = 0; gfreeAnswered = false;
+  wrongGramMode = true;
+  document.getElementById('gfree-setup').classList.add('hidden');
+  document.getElementById('gfree-result').classList.add('hidden');
+  document.getElementById('gfree-quiz').classList.remove('hidden');
+  goPage('page-gram-free');
+  renderGFreeQ();
 }
 
 function clearWrong(){
@@ -4005,6 +4095,7 @@ let gfreeCount = 10;
 let gfreeScope = 'N5';
 let gfreeQueue = [];
 let gfreeIdx = 0;
+let wrongGramMode = false;
 let gfreeCorrect = 0;
 let gfreeAnswered = false;
 
@@ -4038,7 +4129,7 @@ function selectGFreeScope(btn, scope){
   btn.classList.add('active');
 }
 
-function beginGFree(){
+function beginGFree(){ wrongGramMode = false;
   const pool = getAllGramQuestions(gfreeScope);
   if(!pool.length){ showToast('该范围暂无题目'); return; }
   // 随机打乱，取前 gfreeCount 道
@@ -4112,7 +4203,39 @@ function checkGFreeAnswer(chosen){
   fb.textContent = isCorrect ? '✅ 正确！+10分' : '❌ 答错了，正确答案：'+q.answer;
   fb.classList.remove('hidden');
 
-  if(isCorrect) gfreeCorrect++;
+  if(isCorrect){
+    gfreeCorrect++;
+    // 错题语法练习模式：答对后从错题本删除
+    if(wrongGramMode){
+      const wrong = loadWrong();
+      const wkey = 'gram|' + (q.gramTitle||'') + '|' + q.q;
+      delete wrong[wkey];
+      saveWrong(wrong);
+      renderWrongBadge();
+    }
+  } else {
+    // 答错 → 加入错题本（语法题格式）
+    const wrong = loadWrong();
+    const wkey = 'gram|' + (q.gramTitle||'') + '|' + q.q;
+    if(!wrong[wkey]){
+      wrong[wkey] = {
+        isGram: true,
+        word: q.gramTitle || '语法题',
+        kana: q.q,
+        meaning: q.answer,
+        type: '语法',
+        example: '正确答案：' + q.answer + '　💡 ' + q.tip,
+        quizType: 'gram',
+        opts: q.opts,
+        answer: q.answer,
+        tip: q.tip,
+        count: 0
+      };
+    }
+    wrong[wkey].count = (wrong[wkey].count||0)+1;
+    saveWrong(wrong);
+    renderWrongBadge();
+  }
 
   // 统计
   const stats = loadStats();
