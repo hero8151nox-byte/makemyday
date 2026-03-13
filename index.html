@@ -966,6 +966,20 @@ input{font-family:inherit;outline:none}
 .gram-page-btn:disabled{color:var(--text-3);opacity:0.4;pointer-events:none}
 .gram-page-btn:not(:disabled):hover{border-color:var(--accent);color:var(--accent)}
 .gram-page-info{font-size:0.78rem;color:var(--text-2)}
+
+/* 朗读按钮 */
+.btn-speak{
+  background: rgba(88,166,255,0.12);
+  border: 1px solid rgba(88,166,255,0.3);
+  border-radius: 50%;
+  width: 48px; height: 48px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.btn-speak:hover{ background: rgba(88,166,255,0.25); transform: scale(1.1); }
+.btn-speak:active{ transform: scale(0.95); }
 </style>
 </head>
 <body>
@@ -1106,6 +1120,7 @@ input{font-family:inherit;outline:none}
         <div class="word-counter" id="word-counter">1 / 10</div>
         <div class="word-jp" id="word-jp">食べる</div>
         <div class="word-kana" id="word-kana">たべる</div>
+        <button class="btn-speak" id="btn-speak" onclick="speakCurrent()" title="朗读">🔊</button>
         <div class="word-type" id="word-type">动词</div>
         <div class="word-meaning" id="word-meaning">吃</div>
         <div class="word-example" id="word-example">💬 私はりんごを食べます</div>
@@ -1384,8 +1399,8 @@ const USERS = {
   hezishan: '123456',
   yangli:   '123456',
   herui:    '123456',
-  tanying:  '123456',   // ← 新增
-  guest:    '123456'    // ← 新增
+  tanying:  '123456',
+  guest:    '123456'
 };
 
 // =============================================
@@ -2510,6 +2525,28 @@ function showStudyPhase(){
   renderFlashCard();
 }
 
+// =============================================
+// 语音朗读（Web Speech API）
+// =============================================
+function speakText(text){
+  if(!window.speechSynthesis) return;
+  window.speechSynthesis.cancel(); // 取消上一句
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'ja-JP';
+  utter.rate = 0.85;
+  utter.pitch = 1;
+  // 优先选日语语音包
+  const voices = window.speechSynthesis.getVoices();
+  const jaVoice = voices.find(v => v.lang === 'ja-JP') || voices.find(v => v.lang.startsWith('ja'));
+  if(jaVoice) utter.voice = jaVoice;
+  window.speechSynthesis.speak(utter);
+}
+
+function speakCurrent(){
+  const word = document.getElementById('word-jp').textContent;
+  if(word) speakText(word);
+}
+
 function renderFlashCard(){
   const group = flashGroups[flashGroupIdx];
   const w = group[flashCardIdx];
@@ -2552,6 +2589,9 @@ function renderFlashCard(){
 
   // 卡片动画后刷新进度显示
   renderHomeProgress();
+
+  // 自动朗读单词
+  speakText(w.word);
 }
 
 function flashNext(){
@@ -2794,7 +2834,7 @@ function renderQuizQuestion(){
   if(quizType==='jp2zh'){
     document.getElementById('quiz-q-label').textContent = '请选择正确的中文意思';
     document.getElementById('quiz-q-main').textContent = q.kana;   // 只显示假名
-    document.getElementById('quiz-q-sub').textContent = q.word;    // 汉字作为灰色小字
+    document.getElementById('quiz-q-sub').textContent = '';    // 不显示汉字
   } else {
     document.getElementById('quiz-q-label').textContent = '请选择对应的读音（ひらがな）';
     document.getElementById('quiz-q-main').textContent = q.meaning;
@@ -4097,6 +4137,3 @@ function showGFreeResult(){
 </script>
 </body>
 </html>
-
-
-
