@@ -2791,10 +2791,10 @@ function renderQuizQuestion(){
 
   if(quizType==='jp2zh'){
     document.getElementById('quiz-q-label').textContent = '请选择正确的中文意思';
-    document.getElementById('quiz-q-main').textContent = q.word;
-    document.getElementById('quiz-q-sub').textContent = q.kana;
+    document.getElementById('quiz-q-main').textContent = q.kana;   // 只显示假名
+    document.getElementById('quiz-q-sub').textContent = q.word;    // 汉字作为灰色小字
   } else {
-    document.getElementById('quiz-q-label').textContent = '请选择对应的日语单词';
+    document.getElementById('quiz-q-label').textContent = '请选择对应的读音（ひらがな）';
     document.getElementById('quiz-q-main').textContent = q.meaning;
     document.getElementById('quiz-q-sub').textContent = '';
   }
@@ -2806,7 +2806,7 @@ function renderQuizQuestion(){
     const btn = document.createElement('button');
     btn.className = 'quiz-option';
     const displayText = quizType==='jp2zh' ? opt.meaning :
-      `<span class="opt-jp">${opt.word}</span> <span style="font-size:0.8rem;color:var(--text-2)">${opt.kana}</span>`;
+      opt.kana;   // 中→日 只显示假名，不显示汉字
     btn.innerHTML = `<span class="opt-label">${labels[i]}</span><span>${displayText}</span>`;
     btn.onclick = ()=>checkAnswer(opt, q, btn, optDiv);
     optDiv.appendChild(btn);
