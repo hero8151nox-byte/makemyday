@@ -789,11 +789,11 @@ input{font-family:inherit;outline:none}
 
 /* 打字测试输入区 */
 .test-input-wrap{
-  display:flex;gap:10px;
+  display:flex;flex-direction:column;gap:12px;
   margin-bottom:12px;
 }
 .test-input{
-  flex:1;
+  width:100%;
   background:var(--bg-card);
   border:2px solid var(--border);
   border-radius:var(--radius-sm);
@@ -1157,7 +1157,7 @@ input{font-family:inherit;outline:none}
       </div>
       <div class="test-input-wrap" id="test-input-wrap">
         <input type="text" id="test-input" class="test-input" placeholder="日語を入力…" autocomplete="off" autocorrect="off" spellcheck="false">
-        <button class="btn-next" id="btn-test-submit" onclick="submitTestAnswer()">确认</button>
+        <button class="btn-next" id="btn-test-submit" onclick="submitTestAnswer()" style="width:100%;padding:14px">确认</button>
       </div>
       <div id="test-feedback" class="hidden"></div>
       <div id="test-answer-detail" class="hidden word-card" style="min-height:unset;padding:16px 20px;gap:6px;text-align:left">
