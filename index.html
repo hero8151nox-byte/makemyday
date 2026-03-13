@@ -1100,6 +1100,14 @@ input{font-family:inherit;outline:none}
         </div>
         <div class="mode-arrow">›</div>
       </div>
+      <div class="mode-card" style="border-color:var(--border)" onclick="startGramFree()">
+        <div class="mode-icon" style="background:rgba(88,166,255,0.15);font-size:1.5rem">🎲</div>
+        <div class="mode-info">
+          <div class="mode-title">语法自由练习</div>
+          <div class="mode-desc">随机抽题，综合测验</div>
+        </div>
+        <div class="mode-arrow">›</div>
+      </div>
     </div>
   </div>
 
@@ -1400,7 +1408,16 @@ const USERS = {
   yangli:   '123456',
   herui:    '123456',
   tanying:  '123456',
-  guest:    '123456'
+  guest:    '123456',
+  guest1:   '123456',
+  guest2:   '123456',
+  guest3:   '123456',
+  guest4:   '123456',
+  guest5:   '123456',
+  guest6:   '123456',
+  guest7:   '123456',
+  guest8:   '123456',
+  guest9:   '123456'
 };
 
 // =============================================
@@ -4058,7 +4075,7 @@ function renderGFreeQ(){
 
   document.getElementById('gfree-question-wrap').innerHTML = `
     <div class="gram-quiz-card">
-      <div style="font-size:0.75rem;color:var(--accent);margin-bottom:6px">${q.level} · ${q.gramTitle}</div>
+
       <div class="gram-quiz-q">${q.q.replace('___','<span class="gram-quiz-blank">　　</span>')}</div>
       <div class="gram-opts" id="gfree-opts">${optHtml}</div>
       <div id="gfree-tip" class="hidden gram-explain-tip"></div>
