@@ -1378,7 +1378,7 @@ input{font-family:inherit;outline:none}
   <button class="nav-btn active" id="nav-home" onclick="goPage('page-home');setNav('nav-home')">
     <span class="nav-icon">🏠</span>首页
   </button>
-  <button class="nav-btn" id="nav-flash" onclick="startFlash();setNav('nav-flash')">
+  <button class="nav-btn" id="nav-flash" onclick="goFlash()">
     <span class="nav-icon">📖</span>单词
   </button>
   <button class="nav-btn" id="nav-grammar" onclick="goPage('page-grammar');renderGramList();setNav('nav-grammar')">
@@ -2541,6 +2541,16 @@ let testWords      = []; // 本组10个词打乱顺序
 let testIdx        = 0;  // 当前测试题序号
 let testCorrect    = 0;  // 本组答对数
 let testWrongWords = []; // 本组答错的词
+
+function goFlash(){
+  // 底部导航点击：已有进度则继续，否则重新开始
+  if(flashGroups && flashGroups.length > 0){
+    showStudyPhase();
+    setNav('nav-flash');
+  } else {
+    startFlash();
+  }
+}
 
 function startFlash(){
   // 每次进入都从完整词库随机打乱，再切成10个一组
